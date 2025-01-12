@@ -1,3 +1,23 @@
+section[data-tab="description"] {
+  &.editorActive {
+    .form-group.description:not(.active) {
+      display: none;
+    }
+    prose-mirror {
+      height: 350px;
+    }
+  }
+
+  .play.description {
+    padding: 0.25rem;
+  }
+
+  label {
+    line-height: var(--form-field-height);
+    font-family: var(--font-h4);
+    font-size: var(--font-h4-size);
+  }
+}
 [data-tab="details"] {
   &[data-subtype="kit"] {
     .damage-bonus {

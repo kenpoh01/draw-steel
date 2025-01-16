@@ -113,6 +113,9 @@
             "primary": {
               "label": "Heroic Resource"
             },
+            "surges": {
+              "label": "Surges"
+            },
             "xp": {
               "label": "XP"
             },
@@ -135,7 +138,8 @@
               "label": "Skills"
             }
           }
-        }
+        },
+        "HeroicResourceGain": "Start of turn resource gain"
       },
       "NPC": {
         "FIELDS": {
@@ -329,6 +333,9 @@
           "category": {
             "label": "Category"
           },
+          "resource": {
+            "label": "Resource Cost"
+          },
           "distance": {
             "label": "Distance",
             "type": {
@@ -426,8 +433,20 @@
             "label": "Effect"
           },
           "spend": {
-            "label": "Spend"
+            "label": "Spend",
+            "value": {
+              "label": "Spend Cost"
+            },
+            "text": {
+              "label": "Spend Effect"
+            }
           }
+        },
+        "ResourceCost": "Costs {value} {name}",
+        "ConfigureUse": {
+          "Title": "Configure Ability Use",
+          "SpendLabel": "Spend {value} {name}",
+          "SpentFlavor": "Spent {value} {name}"
         },
         "KeywordGroups": {
           "Elementalist": "Elementalist",
@@ -549,6 +568,9 @@
           },
           "primary": {
             "label": "Heroic Resource"
+          },
+          "turnGain": {
+            "label": "Gain Per Turn"
           },
           "characteristics": {
             "core": {
@@ -863,7 +885,7 @@
         },
         "ChooseType": {
           "Title": "Power Roll Type",
-          "Content": "What type of power roll?"
+          "Content": "Choose Power Roll Type."
         },
         "Modifier": {
           "Edge": "Edge",
@@ -890,7 +912,8 @@
         "WarnDirectorBadSpend": "{name} attempted to spend a hero token while none were available.",
         "GainSurges": {
           "label": "Gain Surges",
-          "messageContent": "Spends a hero token to gain two surges."
+          "messageContent": "Spends a hero token to gain two surges.",
+          "dialogContent": "Spend one of {value} hero tokens to gain two surges."
         },
         "SucceedSave": {
           "label": "Succeed on a Saving Throw",

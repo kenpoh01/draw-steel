@@ -1,4 +1,6 @@
+import { PowerRollModifiers } from "../../_types.js";
 import { DrawSteelItem } from "../../documents/item.mjs";
+import SourceModel from "../models/source.mjs";
 
 export type ItemMetaData = Readonly<{
   /** The expected `type` value */
@@ -18,22 +20,32 @@ declare module "./base.mjs" {
       value: string;
       gm: string;
     }
-    source: {
-      book: string | null;
-      page: string | null;
-      license: string | null;
-    }
+    source: SourceModel;
+    /** The Draw Steel ID, indicating a unique game rules element */
     _dsid: string;
   }
 }
 
 declare module "./ability.mjs" {
+
+  export interface Potency {
+    potency: {
+      enabled: boolean,
+      value: string | number;
+      characteristic: string;
+    }
+  }
+  export interface PotencyData extends Potency {
+    embed: string
+  }
+
   type PowerRoll = {
     damage: {
       value: string;
       type: string;
     }
     ae: string;
+    potency: Potency;
     forced: {
       type: string;
       value: number;
@@ -81,14 +93,19 @@ declare module "./ability.mjs" {
     };
     effect: string;
   }
+
+  export interface AbilityUseOptions {
+    event: UIEvent,
+    modifiers: PowerRollModifiers
+  }
 }
 
 declare module "./ancestry.mjs" {
-  export default interface AncestryModel {}
+  export default interface AncestryModel { }
 }
 
 declare module "./career.mjs" {
-  export default interface CareerModel {}
+  export default interface CareerModel { }
 }
 
 declare module "./class.mjs" {
@@ -108,11 +125,11 @@ declare module "./class.mjs" {
 }
 
 declare module "./complication.mjs" {
-  export default interface ComplicationModel {}
+  export default interface ComplicationModel { }
 }
 
 declare module "./culture.mjs" {
-  export default interface CultureModel {}
+  export default interface CultureModel { }
 }
 
 declare module "./equipment.mjs" {

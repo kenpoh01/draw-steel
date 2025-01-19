@@ -1,11 +1,13 @@
 import {systemPath} from "../../constants.mjs";
-import {DrawSteelChatMessage} from "../../documents/_module.mjs";
-import {PowerRoll, DamageRoll} from "../../rolls/_module.mjs";
+import {DrawSteelActiveEffect, DrawSteelActor, DrawSteelChatMessage} from "../../documents/_module.mjs";
+import {DamageRoll, DSRoll, PowerRoll} from "../../rolls/_module.mjs";
 import FormulaField from "../fields/formula-field.mjs";
 import {setOptions} from "../helpers.mjs";
 import BaseItemModel from "./base.mjs";
 
 /** @import {FormInputConfig, FormGroupConfig} from "../../../../foundry/client-esm/applications/forms/fields.mjs" */
+/** @import {PowerRollModifiers, PowerRollPromptOptions} from "../../_types.js" */
+/** @import {MaliceModel} from "../settings/_module.mjs" */
 
 const fields = foundry.data.fields;
 
@@ -22,6 +24,7 @@ export default class AbilityModel extends BaseItemModel {
 
   /** @override */
   static LOCALIZATION_PREFIXES = [
+    "DRAW_STEEL.Source",
     "DRAW_STEEL.Item.base",
     "DRAW_STEEL.Item.Ability"
   ];
@@ -33,9 +36,9 @@ export default class AbilityModel extends BaseItemModel {
 
     schema.keywords = new fields.SetField(setOptions());
     schema.type = new fields.StringField({required: true, blank: false, initial: "action"});
-    schema.category = new fields.StringField({required: true, nullable: false});
+    schema.category = new fields.StringField({required: true});
     schema.resource = new fields.NumberField({initial: null, min: 1, integer: true});
-    schema.trigger = new fields.StringField({required: true, nullable: false});
+    schema.trigger = new fields.StringField({required: true});
     schema.distance = new fields.SchemaField({
       type: new fields.StringField({required: true, blank: false, initial: "self"}),
       primary: new fields.NumberField({integer: true, min: 0}),
@@ -51,30 +54,34 @@ export default class AbilityModel extends BaseItemModel {
       value: new fields.NumberField({integer: true})
     });
 
-    const powerRollSchema = () => ({
+    const powerRollSchema = ({initialPotency} = {}) => ({
       damage: new fields.SchemaField({
         value: new FormulaField(),
-        type: new fields.StringField({required: true, nullable: false})
+        type: new fields.StringField({required: true})
       }),
       ae: new fields.SetField(setOptions({validate: foundry.data.validators.isValidId})),
-      potency: new FormulaField({deterministic: true}),
+      potency: new fields.SchemaField({
+        enabled: new fields.BooleanField(),
+        value: new FormulaField({deterministic: true, initial: initialPotency, blank: false})
+      }),
       forced: new fields.SchemaField({
         type: new fields.StringField({choices: config.forcedMovement, blank: false}),
         value: new fields.NumberField(),
         vertical: new fields.BooleanField()
       }),
-      description: new fields.StringField({required: true, nullable: false})
+      description: new fields.StringField({required: true})
     });
 
     schema.powerRoll = new fields.SchemaField({
       enabled: new fields.BooleanField(),
       formula: new FormulaField(),
       characteristics: new fields.SetField(setOptions()),
-      tier1: new fields.SchemaField(powerRollSchema()),
-      tier2: new fields.SchemaField(powerRollSchema()),
-      tier3: new fields.SchemaField(powerRollSchema())
+      potencyCharacteristic: new fields.StringField(),
+      tier1: new fields.SchemaField(powerRollSchema({initialPotency: "@potency.weak"})),
+      tier2: new fields.SchemaField(powerRollSchema({initialPotency: "@potency.average"})),
+      tier3: new fields.SchemaField(powerRollSchema({initialPotency: "@potency.strong"}))
     });
-    schema.effect = new fields.StringField({required: true, nullable: false});
+    schema.effect = new fields.StringField({required: true});
     schema.spend = new fields.SchemaField({
       value: new fields.NumberField({integer: true}),
       text: new fields.StringField({required: true})
@@ -172,13 +179,29 @@ export default class AbilityModel extends BaseItemModel {
   }
 
   /**
-   * Fetches the appropriate name for the resource this ability consumes
-   * @returns {string}
+   * Generate the potency data for a given tier.
+   *
+   * @param {string} tierName The name of the tier to pull from the power roll
+   * @returns {Partial<PotencyData>}
    */
-  get resourceName() {
-    return this.actor?.type === "npc"
-      ? game.i18n.localize("DRAW_STEEL.Setting.Malice.Label")
-      : this.actor?.system.class?.system.primary ?? game.i18n.localize("DRAW_STEEL.Actor.Character.FIELDS.hero.primary.label");
+  getPotencyData(tierName) {
+    const potency = this.powerRoll[tierName].potency;
+    const potencyData = {
+      enabled: potency.enabled && !!this.powerRoll.potencyCharacteristic
+    };
+
+    // If potency is not enabled or there is no potency value return early
+    if (!potencyData.enabled && !potency.value) return potencyData;
+
+    const potencyValue = new DSRoll(potency.value, this.parent.getRollData()).evaluateSync().total;
+    potencyData.characteristic = this.powerRoll.potencyCharacteristic;
+    potencyData.value = potencyValue;
+    potencyData.embed = game.i18n.format("DRAW_STEEL.Item.Ability.Potency.Embed", {
+      characteristic: game.i18n.localize(`DRAW_STEEL.Actor.characteristics.${potencyData.characteristic}.abbreviation`),
+      value: potencyValue
+    });
+
+    return potencyData;
   }
 
   /**
@@ -195,7 +218,7 @@ export default class AbilityModel extends BaseItemModel {
       system: this,
       systemFields: this.schema.fields,
       config: ds.CONFIG,
-      resourceName: this.resourceName
+      resourceName: this.actor?.system.coreResource.name ?? game.i18n.localize("DRAW_STEEL.Actor.Character.FIELDS.hero.primary.label")
     };
     this.getSheetContext(context);
     const abilityBody = await renderTemplate(systemPath("templates/item/embeds/ability.hbs"), context);
@@ -207,7 +230,7 @@ export default class AbilityModel extends BaseItemModel {
   getSheetContext(context) {
     const config = ds.CONFIG.abilities;
 
-    context.resourceName = this.resourceName;
+    context.resourceName = this.actor?.system.coreResource?.name ?? "";
 
     const keywordFormatter = game.i18n.getListFormatter({type: "unit"});
     const keywordList = Array.from(this.keywords).map(k => ds.CONFIG.abilities.keywords[k]?.label ?? k);
@@ -237,6 +260,7 @@ export default class AbilityModel extends BaseItemModel {
     context.characteristics = Object.entries(ds.CONFIG.characteristics).map(([value, {label}]) => ({value, label}));
   }
 
+  /** @override */
   modifyRollData(rollData) {
     super.modifyRollData(rollData);
 
@@ -247,11 +271,8 @@ export default class AbilityModel extends BaseItemModel {
 
   /**
    * Use an ability, generating a chat message and potentially making a power roll
-   * @param {object} [options={}] Configuration
-   * @param {UIEvent} [options.event] The event prompting the use
-   * @param {number} [options.banes]  Banes to apply to a power roll
-   * @param {number} [options.edges]  Edges to apply to a power roll
-   * @returns {Promise<DrawSteelChatMessage>}
+   * @param {Partial<AbilityUseOptions>} [options={}] Configuration
+   * @returns {Promise<Array<DrawSteelChatMessage> | null>}
    * TODO: Add hooks based on discussion with module authors
    */
   async use(options = {}) {
@@ -261,6 +282,7 @@ export default class AbilityModel extends BaseItemModel {
      */
     let configuration = null;
     let resourceSpend = this.resource ?? 0;
+    const coreResource = this.actor?.system.coreResource;
 
     // Determine if the configuration form should even run.
     // Can be factored out if/when complexity increases
@@ -273,7 +295,7 @@ export default class AbilityModel extends BaseItemModel {
       const spendInputConfig = {
         name: "spend",
         min: 0,
-        max: this.actor.system.hero.primary.value,
+        max: foundry.utils.getProperty(coreResource.target, coreResource.target),
         step: 1
       };
 
@@ -285,7 +307,7 @@ export default class AbilityModel extends BaseItemModel {
       content += foundry.applications.fields.createFormGroup({
         label: game.i18n.format("DRAW_STEEL.Item.Ability.ConfigureUse.SpendLabel", {
           value: this.spend.value || "",
-          name: this.resourceName
+          name: coreResource.name
         }),
         input: spendInput
       }).outerHTML;
@@ -322,39 +344,104 @@ export default class AbilityModel extends BaseItemModel {
         resourceSpend += typeof configuration.spend === "boolean" ? this.spend.value : configuration.spend;
         messageData.flavor = game.i18n.format("DRAW_STEEL.Item.Ability.ConfigureUse.SpentFlavor", {
           value: resourceSpend,
-          name: this.resourceName
+          name: coreResource.name
         });
       }
     }
 
     // TODO: Figure out how to better handle invocations when this.actor is null
-    await this.actor?.update({"system.hero.primary.value": this.actor.system.hero.primary.value - resourceSpend});
+    await this.actor?.system.updateResource(resourceSpend * -1);
 
     DrawSteelChatMessage.applyRollMode(messageData, "roll");
 
     if (this.powerRoll.enabled) {
       const formula = this.powerRoll.formula ? `2d10 + ${this.powerRoll.formula}` : "2d10";
       const rollData = this.parent.getRollData();
-      const powerRoll = await PowerRoll.prompt({
+      options.modifiers ??= {};
+      options.modifiers.banes ??= 0;
+      options.modifiers.edges ??= 0;
+
+      // Get the power rolls made per target, or if no targets, then just one power roll
+      const powerRolls = await PowerRoll.prompt({
         type: "ability",
         formula,
         data: rollData,
         evaluation: "evaluate",
-        banes: options.banes,
-        edges: options.banes
+        actor: this.actor,
+        ability: this.parent.uuid,
+        modifiers: options.modifiers,
+        targets: [...game.user.targets].reduce((accumulator, target) => {
+          accumulator.push({
+            uuid: target.actor.uuid,
+            modifiers: this.getTargetModifiers(target.actor)
+          });
+          return accumulator;
+        }, [])
       });
-      messageData.rolls.push(powerRoll);
-      const tier = this.powerRoll[`tier${powerRoll.product}`];
-      const damageFormula = tier.damage.value;
-      if (damageFormula) {
-        const damageType = ds.CONFIG.damageTypes[tier.damage.type]?.label ?? tier.damage.type;
-        const flavor = game.i18n.format("DRAW_STEEL.Item.Ability.DamageFlavor", {type: damageType});
-        const damageRoll = new DamageRoll(damageFormula, rollData, {flavor, type: damageType});
-        await damageRoll.evaluate();
-        messageData.rolls.push(damageRoll);
-      }
-    }
 
-    return DrawSteelChatMessage.create(messageData);
+      if (!powerRolls) return null;
+      const baseRoll = powerRolls.findSplice(powerRoll => powerRoll.options.baseRoll);
+
+      // Power Rolls grouped by tier of success
+      const groupedRolls = powerRolls.reduce((accumulator, powerRoll) => {
+        accumulator[powerRoll.product] ??= [baseRoll];
+        accumulator[powerRoll.product].push(powerRoll);
+
+        return accumulator;
+      }, {});
+
+      // Each tier group gets a message. Rolls within a group are in the same message
+      const messages = [];
+      for (const tierNumber in groupedRolls) {
+        const messageDataCopy = foundry.utils.duplicate(messageData);
+        for (const powerRoll of groupedRolls[tierNumber]) {
+          messageDataCopy.rolls.push(powerRoll);
+        }
+        const tier = this.powerRoll[`tier${tierNumber}`];
+        const damageFormula = tier.damage.value;
+        if (damageFormula) {
+          const damageType = ds.CONFIG.damageTypes[tier.damage.type]?.label ?? tier.damage.type;
+          const flavor = game.i18n.format("DRAW_STEEL.Item.Ability.DamageFlavor", {type: damageType});
+          const damageRoll = new DamageRoll(damageFormula, rollData, {flavor, type: damageType});
+          await damageRoll.evaluate();
+          messageDataCopy.rolls.push(damageRoll);
+        }
+        if (messages.length > 0) messageDataCopy.system.embedText = false;
+
+        messages.push(DrawSteelChatMessage.create(messageDataCopy));
+      }
+
+      return Promise.allSettled(messages);
+    }
+    else return Promise.allSettled([DrawSteelChatMessage.create(messageData)]);
+  }
+
+  /**
+   * Modify the options object based on conditions that apply to ability Power Rolls regardless of target
+   * @param {Partial<AbilityUseOptions>} options Options for the dialog
+   */
+  getActorModifiers(options) {
+    if (!options.actor) return;
+    //TODO: CONDITION CHECKS
+  }
+
+  /**
+   * Get the modifiers based on conditions that apply to ability Power Rolls specific to a target
+   * @param {DrawSteelActor} target A target of the Ability Roll
+   * @returns {PowerRollModifiers}
+   */
+  getTargetModifiers(target) {
+    const modifiers = {
+      banes: 0,
+      edges: 0
+    };
+
+    //TODO: ALL CONDITION CHECKS
+
+    // Frightened condition checks
+    if (DrawSteelActiveEffect.isStatusSource(this.actor, target, "frightened")) modifiers.banes += 1; // Attacking the target frightening the actor
+    if (DrawSteelActiveEffect.isStatusSource(target, this.actor, "frightened")) modifiers.edges += 1; // Attacking the target the actor has frightened
+
+    return modifiers;
   }
 }

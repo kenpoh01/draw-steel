@@ -122,7 +122,7 @@ preLocalize("damageTypes", {key: "label"});
 /**
  * Condition definitions provided by the system that are merged in during the `init` hook
  * Afterwards all references *should* use the core-provided CONFIG.statusEffects
- * @type {Record<string, {img: string, name: string}>}
+ * @type {Record<string, {img: string, name: string, rule: string, targeted? boolean}>}
  */
 DRAW_STEEL.conditions = {
   bleeding: {
@@ -138,12 +138,15 @@ DRAW_STEEL.conditions = {
   frightened: {
     name: "DRAW_STEEL.Effect.Conditions.Frightened.name",
     img: "icons/svg/terror.svg",
-    rule: "Compendium.draw-steel.journals.JournalEntry.hDhdILCi65wpBgPZ.JournalEntryPage.bXiI9vUF3tF78qXg"
+    rule: "Compendium.draw-steel.journals.JournalEntry.hDhdILCi65wpBgPZ.JournalEntryPage.bXiI9vUF3tF78qXg",
+    targeted: true,
+    maxSources: 1
   },
   grabbed: {
     name: "DRAW_STEEL.Effect.Conditions.Grabbed.name",
     img: "systems/draw-steel/assets/icons/hand-grabbing-fill.svg",
-    rule: "Compendium.draw-steel.journals.JournalEntry.hDhdILCi65wpBgPZ.JournalEntryPage.aWBP2vfXXM3fzuVn"
+    rule: "Compendium.draw-steel.journals.JournalEntry.hDhdILCi65wpBgPZ.JournalEntryPage.aWBP2vfXXM3fzuVn",
+    targeted: true
   },
   prone: {
     name: "DRAW_STEEL.Effect.Conditions.Prone.name",
@@ -163,7 +166,9 @@ DRAW_STEEL.conditions = {
   taunted: {
     name: "DRAW_STEEL.Effect.Conditions.Taunted.name",
     img: "systems/draw-steel/assets/icons/flag-banner-fold-fill.svg",
-    rule: "Compendium.draw-steel.journals.JournalEntry.hDhdILCi65wpBgPZ.JournalEntryPage.9zseFmXdcSw8MuKh"
+    rule: "Compendium.draw-steel.journals.JournalEntry.hDhdILCi65wpBgPZ.JournalEntryPage.9zseFmXdcSw8MuKh",
+    targeted: true,
+    maxSources: 1
   },
   weakened: {
     name: "DRAW_STEEL.Effect.Conditions.Weakened.name",
@@ -1049,7 +1054,7 @@ preLocalize("abilities.keywords", {keys: ["label", "group"]});
 preLocalize("abilities.types", {key: "label"});
 preLocalize("abilities.categories", {key: "label"});
 // Embed labels intentionally not pre-localized because they rely on `format` instead of `localize`
-preLocalize("abilities.distances", {keys: ["label", "primary", "secondary"]});
+preLocalize("abilities.distances", {keys: ["label", "primary", "secondary", "tertiary"]});
 preLocalize("abilities.targets", {keys: ["label", "all"]});
 preLocalize("abilities.forcedMovement", {key: "label"});
 

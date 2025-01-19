@@ -1,5 +1,9 @@
 /** @import {DrawSteelCombatant} from "../../documents/combatant.mjs"; */
-import {damageTypes, requiredInteger, setOptions, SizeModel} from "../helpers.mjs";
+/** @import AbilityModel from "../item/ability.mjs" */
+/** @import DataModel from "../../../../foundry/common/abstract/data.mjs" */
+import {PowerRoll} from "../../rolls/power.mjs";
+import {damageTypes, requiredInteger, setOptions} from "../helpers.mjs";
+import SizeModel from "../models/size.mjs";
 const fields = foundry.data.fields;
 
 /**
@@ -210,7 +214,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
     const formula = `2d10 + @${characteristic}`;
     const data = this.parent.getRollData();
     const flavor = `${game.i18n.localize(`DRAW_STEEL.Actor.characteristics.${characteristic}.full`)} ${game.i18n.localize(PowerRoll.TYPES[type].label)}`;
-    return PowerRoll.prompt({type, formula, data, flavor, edges: options.edges, banes: options.banes});
+    return PowerRoll.prompt({type, formula, data, flavor, modifiers: {edges: options.edges, banes: options.banes}, actor: this.parent});
   }
 
   /**
@@ -252,5 +256,28 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
     if (remainingDamage > 0) staminaUpdates.value = this.stamina.value - remainingDamage;
 
     return this.parent.update({"system.stamina": staminaUpdates});
+  }
+
+  /**
+   * Fetch information about the core resource for this actor subtype.
+   * {@link AbilityModel#use}
+   * @abstract
+   * @returns {{
+   *  name: string;
+   *  target: DataModel;
+   *  path: string;
+   * }}
+   */
+  get coreResource() {
+    return null;
+  }
+
+  /**
+   * Update the core resource for this actor subtype
+   * {@link AbilityModel#use}
+   * @param {number} delta Change in value
+   */
+  async updateResource(delta) {
+    throw new Error("This method is abstract and must be implemented by a subclass");
   }
 }

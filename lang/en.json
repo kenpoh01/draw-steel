@@ -758,8 +758,18 @@
           }
         },
         "Types": {
-          "Perk": "Perk",
-          "Title": "Title"
+          "Perk": {
+            "Label": "Perk",
+            "Crafting": "Crafting",
+            "Exploration": "Exploration",
+            "Interpersonal": "Interpersonal",
+            "Intrigue": "Intrigue",
+            "Lore": "Lore",
+            "Supernatural": "Supernatural"
+          },
+          "Title": {
+            "Label":"Title"
+          }
         }
       },
       "Kit": {
@@ -935,6 +945,11 @@
           "One": "Tier 1",
           "Two": "Tier 2",
           "Three": "Tier 3"
+        },
+        "Results": {
+          "Tier1": "11 or lower",
+          "Tier2": "12–16",
+          "Tier3": "17+"
         },
         "Types": {
           "Ability": "Ability Roll",

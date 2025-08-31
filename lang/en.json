@@ -1,17 +1,147 @@
 {
+  "DOCUMENT": {
+    "Advancement": "Advancement",
+    "AdvancementPl": "Advancements",
+    "PowerRollEffect": "Power Roll Effect"
+  },
   "DRAW_STEEL": {
-    "Sheet": {
+    "COMPENDIUM": {
+      "classes": "Classes",
+      "abilities": "Abilities",
+      "journals": "System Journals",
+      "tables": "Roll Tables",
+      "monsters": "Monsters",
+      "monster-features": "Monster Features",
+      "origins": "Ancestries & Backgrounds",
+      "character-options": "Complications, Perks, and Kits",
+      "rewards": "Projects & Rewards"
+    },
+    "ADVANCEMENT": {
+      "FIELDS": {
+        "description": {
+          "label": "Description"
+        },
+        "requirements": {
+          "label": "Requirements",
+          "level": {
+            "label": "Level",
+            "hint": "The level at which this advancement can be granted."
+          }
+        }
+      },
+      "ITEM_GRANT": {
+        "FIELDS": {
+          "chooseN": {
+            "label": "Choice",
+            "hint": "How many of the items can be picked when this advancement is configured. If left blank or if the number is greater than the number of items available, all the items are granted."
+          }
+        }
+      },
+      "TRAIT": {
+        "FIELDS": {
+          "chooseN": {
+            "label": "Choice",
+            "hint": "How many of the traits can be picked when this advancement is configured. If left blank or if the number is greater than the number of traits available, all the traits are granted."
+          },
+          "any": {
+            "label": "Pick Any",
+            "hint": "Ignore the specific list of choices or groups and allow the character to pick any trait."
+          },
+          "languages": {
+            "label": "Language Choices",
+            "hint": "Specific languages that can be chosen in this advancement. If this is empty, any language can be chosen."
+          },
+          "skills": {
+            "choices": {
+              "label": "Skill Choices",
+              "hint": "Specific skills that can be chosen in this advancement. If this and skill groups are empty, any skill can be chosen."
+            },
+            "groups": {
+              "label": "Skill Groups",
+              "hint": "Groups of skills that can be chosen in this advancement."
+            }
+          }
+        }
+      },
+      "HEADERS": {
+        "level": "Level {level}",
+        "null": "Initial Advancements"
+      },
+      "SHEET": {
+        "requirements": "Requirements",
+        "chooseAll": "Choose All",
+        "unknownItem": "Unknown Item",
+        "reconfigure": "Reconfigure Advancement"
+      },
+      "WARNING": {
+        "cannotAddNewType": "You cannot add a new {type} to a character that already has one.",
+        "restrictedType": "{type} items cannot be added as advancements.",
+        "requirePack": "Granted items must come from a compendium pack.",
+        "forbidParent": "Granted items cannot be embedded in an actor."
+      },
+      "FillTrait": {
+        "button": "Pick Unchosen {type}",
+        "title": "Select Missing Trait Advancements",
+        "languageTitle": "I Speak Their Language"
+      },
+      "ChainConfiguration": {
+        "levelUpTitle": "Level Up: {name}",
+        "createWithAdvancementsTitle": "Create {name} with Advancements",
+        "reconfigureTitle": "Reconfigure Advancement"
+      },
+      "ConfigureAdvancement": {
+        "Title": "Configure {name}",
+        "ChooseN": "Choose {n}"
+      },
+      "DeleteDialog": {
+        "ReplaceTitle": "Replace {type}",
+        "Content": "The following items will be deleted:"
+      },
+      "Reconfigure": {
+        "ConfirmItemGrant": {
+          "Title": "Reconfigure Item Grant",
+          "Content": "This will delete and recreate the granted items."
+        }
+      }
+    },
+    "SHEET": {
       "Labels": {
         "Character": "Draw Steel Character Sheet",
         "NPC": "Draw Steel NPC Sheet",
-        "Item": "Draw Steel Item Sheet"
+        "Item": "Draw Steel Item Sheet",
+        "ActiveEffect": "Draw Steel Active Effect Config",
+        "CombatantGroup": "Draw Steel Combatant Group Config",
+        "WallDocument": "Draw Steel Wall Config"
       },
       "Add": "+ Add {itemName}",
+      "NoDocument": "No {documentName}",
       "Play": "Play",
+      "View": "View",
       "Edit": "Edit",
-      "Resources": "Resources"
+      "Share": "Share",
+      "Delete": "Delete",
+      "Resources": "Resources",
+      "Other": "Other",
+      "LevelUp": "Level Up Available",
+      "ToggleMode": "Toggle Play/Edit Mode",
+      "NoCreateAdvancement": "{name} could not be created as part of the folder drop because it has advancements."
     },
-    "Source": {
+    "EDITOR": {
+      "Enrichers": {
+        "DamageHeal": {
+          "FormatString": "{formula} {type}",
+          "ChooseType": {
+            "InputLabel": "Type {index}",
+            "DialogTitle": "Choose Damage Types"
+          },
+          "MessageTitle": {
+            "damage": "Damage Roll",
+            "healing": "Healing Roll"
+          }
+        }
+      }
+    },
+    "SOURCE": {
       "FIELDS": {
         "source": {
           "label": "Source",
@@ -32,19 +162,43 @@
           }
         }
       },
-      "UpdateTitle": "Update Source Information",
+      "Update": "Update Source Information",
+      "CompendiumSource": {
+        "Label": "Compendium Source",
+        "Clear": "Clear compendium source",
+        "ConfirmDeleteTitle": "Clear Compendium Source",
+        "ConfirmDeleteContent": "Are you sure? Removing the compendium source reference permanently will prevent the application of updates and errata."
+      },
       "Display": {
         "Full": "{book} {page}",
         "Page": "pg. {page}"
       }
     },
+    "MEASUREMENT": {
+      "Height": {
+        "in": "in",
+        "ft": "ft",
+        "cm": "cm",
+        "m": "m"
+      },
+      "Weight": {
+        "lbs": "lbs",
+        "kg": "kg"
+      },
+      "Groups": {
+        "imperial": "Imperial",
+        "metric": "Metric"
+      }
+    },
     "Actor": {
       "Tabs": {
-        "Biography": "Biography",
-        "Features": "Features",
-        "Stats": "Stats",
-        "Abilities": "Abilities",
-        "Effects": "Effects"
+        "biography": "Biography",
+        "features": "Features",
+        "equipment": "Equipment",
+        "stats": "Stats",
+        "abilities": "Abilities",
+        "effects": "Effects",
+        "projects": "Projects"
       },
       "characteristics": {
         "might": {
@@ -74,11 +228,20 @@
             "value": {
               "label": "Biography"
             },
-            "gm": {
-              "label": "GM Notes"
+            "director": {
+              "label": "Director Notes"
             },
             "languages": {
               "label": "Languages"
+            },
+            "height": {
+              "label": "Height"
+            },
+            "weight": {
+              "label": "Weight"
+            },
+            "age": {
+              "label": "Age"
             }
           },
           "characteristics": {
@@ -96,34 +259,70 @@
               "label": "Temporary"
             }
           },
+          "recoveries": {
+            "label": "Recoveries",
+            "value": {
+              "label": "Current"
+            },
+            "max": {
+              "label": "Max"
+            }
+          },
           "combat": {
             "label": "Combat",
             "size": {
-              "label": "Size"
+              "label": "Size",
+              "value": {
+                "label": "Size Number"
+              }
             },
             "stability": {
               "label": "Stability"
+            },
+            "turns": {
+              "label": "Turns Per Round",
+              "hint": "Some monsters get additional turns every round."
+            },
+            "save": {
+              "bonus": {
+                "label": "Save Bonus",
+                "hint": "By default, saving throws roll '1d10 + @combat.save.bonus'."
+              },
+              "threshold": {
+                "label": "Save Threshold",
+                "hint": "The total necessary to end a (Save Ends) effect."
+              }
             }
           },
           "movement": {
             "label": "Movement",
-            "walk": {
-              "label": "Walk"
+            "value": {
+              "label": "Speed"
             },
-            "burrow": {
-              "label": "Burrow"
+            "types": {
+              "label": "Movement Types"
             },
-            "climb": {
-              "label": "Climb"
+            "hover": {
+              "label": "Hover"
             },
-            "swim": {
-              "label": "Swim"
+            "disengage": {
+              "label": "Disengage"
+            }
+          },
+          "damage": {
+            "immunities": {
+              "label": "Immunities",
+              "all": {
+                "label": "Damage"
+              },
+              "format": "{type} Immunity"
             },
-            "fly": {
-              "label": "Fly"
-            },
-            "teleport": {
-              "label": "Teleport"
+            "weaknesses": {
+              "label": "Weaknesses",
+              "all": {
+                "label": "Damage"
+              },
+              "format": "{type} Weakness"
             }
           }
         },
@@ -132,13 +331,31 @@
           "S": "Small",
           "M": "Medium",
           "L": "Large"
+        },
+        "SpendRecovery": {
+          "tooltip": "Spend a recovery to regain stamina.",
+          "Notifications": {
+            "NoRecoveries": "{actor} does not have any recoveries to spend.",
+            "Success": "{actor} has spent a recovery to regain stamina."
+          }
+        },
+        "NicheCombatDialog": {
+          "EditTooltip": "Edit Specialized Combat Data",
+          "Title": "Specialized Combat Data"
         }
       },
-      "Character": {
+      "hero": {
         "FIELDS": {
           "hero": {
             "primary": {
-              "label": "Heroic Resource"
+              "value": {
+                "label": "Heroic Resource"
+              }
+            },
+            "epic": {
+              "value": {
+                "label": "Epic Resource"
+              }
             },
             "surges": {
               "label": "Surges"
@@ -146,29 +363,30 @@
             "xp": {
               "label": "XP"
             },
-            "recoveries": {
-              "label": "Recoveries",
-              "value": {
-                "label": "Current"
-              },
-              "max": {
-                "label": "Max"
-              }
-            },
             "victories": {
               "label": "Victories"
             },
             "renown": {
               "label": "Renown"
             },
+            "wealth": {
+              "label": "Wealth"
+            },
+            "followers": {
+              "label": "Followers",
+              "max": {
+                "label": "Max Followers"
+              }
+            },
             "skills": {
               "label": "Skills"
             }
           }
         },
-        "HeroicResourceGain": "Start of turn resource gain"
+        "HeroicResourceGain": "Start of turn resource gain",
+        "TakeRespite": "Take Respite"
       },
-      "NPC": {
+      "npc": {
         "FIELDS": {
           "negotiation": {
             "label": "Negotiation",
@@ -189,6 +407,9 @@
             }
           },
           "monster": {
+            "freeStrike": {
+              "label": "Free Strike"
+            },
             "keywords": {
               "label": "Keywords"
             },
@@ -210,8 +431,9 @@
           "DialogTitle": "Update Monster Metadata"
         },
         "EVLabel": {
-          "Minion": "EV {value} for eight minions",
-          "Other": "EV {value}"
+          "Label": "EV",
+          "Minion": "{value} for four minions",
+          "Other": "{value}"
         },
         "KEYWORDS": {
           "Abyssal": "Abyssal",
@@ -227,6 +449,7 @@
           "Humanoid": "Humanoid",
           "Infernal": "Infernal",
           "Plant": "Plant",
+          "Soulless": "Soulless",
           "Swarm": "Swarm",
           "Undead": "Undead"
         },
@@ -245,12 +468,12 @@
           "Support": "Support"
         },
         "ORGANIZATIONS": {
-          "Band": "Band",
-          "Leader": "Leader",
           "Minion": "Minion",
+          "Horde": "Horde",
           "Platoon": "Platoon",
-          "Solo": "Solo",
-          "Troop": "Troop"
+          "Elite": "Elite",
+          "Leader": "Leader",
+          "Solo": "Solo"
         },
         "Negotiation": {
           "Motivations": {
@@ -267,10 +490,17 @@
             "Revelry": "Revelry",
             "Vengeance": "Vengeance"
           }
+        },
+        "FreeStrike": {
+          "MultiLinked": "You can only target one copy of a linked actor.",
+          "NoTargets": "Select one or more targets to make a free strike!",
+          "DialogHeader": "{value} {type} Damage",
+          "DialogTitle": "Free Strike",
+          "DialogButton": "Deal Damage"
         }
       },
       "DamageNotification": {
-        "ImmunityReducedToZero": "The actor's immunities have reduced the damage to zero."
+        "ImmunityReducedToZero": "{name}'s immunities have reduced the damage to zero."
       }
     },
     "Combat": {
@@ -282,12 +512,30 @@
           "Alternative": "Alternative"
         },
         "Actions": {
+          "RollFirst": {
+            "Tooltip": "Roll a d10 to determine which side goes first",
+            "Heroes": "Heroes Go First!",
+            "Enemies": "Enemies Go First!"
+          },
           "Act": "Act",
           "Restore": "Restore Action"
         }
       },
       "base": {
         "FIELDS": {}
+      },
+      "CompleteEncounter": {
+        "Title": "Complete Encounter",
+        "AwardVictories": {
+          "label": "Victories Awarded",
+          "hint": "How many victories to award to each character in the combat."
+        },
+        "ResetTempStamina": {
+          "label": "Reset Temporary Stamina"
+        },
+        "ResetHeroicResources": {
+          "label": "Reset Heroic Resources"
+        }
       }
     },
     "Combatant": {
@@ -300,22 +548,43 @@
         }
       }
     },
+    "CombatantGroup": {
+      "squad": {
+        "FIELDS": {
+          "staminaValue.label": "Current Stamina"
+        }
+      },
+      "TypeHint": "A Base combatant group can have any number of non-minion members. A Squad can have any number of minions plus up to one non-minion captain.",
+      "ResetSquadHP": "Reset Squad HP To Max",
+      "Error": {
+        "MinionMustSquad": "Minions can only be added to Squad groups.",
+        "SquadOneCaptain": "A squad can only have one captain.",
+        "MinionNoSquad": "Applying damage directly to a minion because it's not in a squad.",
+        "TooManySquad": "Applying damage directly to a minion because it's in multiple squads."
+      }
+    },
     "Item": {
       "Tabs": {
-        "Attributes": "Attributes",
-        "Description": "Description",
-        "Details": "Details",
-        "Advancement": "Advancement",
-        "Effects": "Effects"
+        "attributes": "Attributes",
+        "description": "Description",
+        "details": "Details",
+        "advancement": "Advancement",
+        "impact": "Impact",
+        "effects": "Effects",
+        "tier1": "Tier 1",
+        "tier2": "Tier 2",
+        "tier3": "Tier 3"
       },
+      "LimitWorldCreateTooltip": "Certain item types (Class, Subclass, Ancestry, Career, Kit) must be created inside of a compendium and cannot be created in-world.",
+      "NoPrerequisites": "None",
       "base": {
         "FIELDS": {
           "description": {
             "value": {
               "label": "Description"
             },
-            "gm": {
-              "label": "GM Notes"
+            "director": {
+              "label": "Director Notes"
             }
           },
           "_dsid": {
@@ -325,20 +594,16 @@
         }
       },
       "advancement": {
-        "FIELDS": {}
-      },
-      "Ability": {
         "FIELDS": {
-          "description": {
-            "flavor": {
-              "label": "Story Text"
-            },
-            "value": {
-              "label": "Description"
-            },
-            "gm": {
-              "label": "GM Notes"
-            }
+          "advancements": {
+            "label": "Advancements"
+          }
+        }
+      },
+      "ability": {
+        "FIELDS": {
+          "story": {
+            "label": "Story Text"
           },
           "keywords": {
             "label": "Keywords"
@@ -373,101 +638,31 @@
               "label": "Value"
             }
           },
-          "powerRoll": {
+          "power": {
             "label": "Power Roll",
-            "enabled": {
-              "label": "Has Power Roll"
+            "effects": {
+              "label": "Power Roll Effects"
             },
-            "formula": {
-              "label": "Roll Bonus"
-            },
-            "characteristics": {
-              "label": "Characteristics"
-            },
-            "potencyCharacteristic": {
-              "label": "Potency Characteristic"
-            },
-            "tier1": {
-              "label": "Tier 1 Result",
-              "damage": {
-                "value": {
-                  "label": "Damage Formula"
-                },
-                "type": {
-                  "label": "Damage Type"
-                }
+            "roll": {
+              "flat": {
+                "label": "Flat"
               },
-              "ae": {
-                "label": "Applied Effects"
+              "formula": {
+                "label": "Roll Bonus"
               },
-              "potency": {
-                "enabled": {
-                  "label": "Has Potency"
-                },
-                "value": {
-                  "label": "Potency Value"
-                },
-                "label": "Potency"
-              },
-              "description": {
-                "label": "Description"
-              }
-            },
-            "tier2": {
-              "label": "Tier 2 Result",
-              "damage": {
-                "value": {
-                  "label": "Damage Formula"
-                },
-                "type": {
-                  "label": "Damage Type"
-                }
-              },
-              "ae": {
-                "label": "Applied Effects"
-              },
-              "potency": {
-                "enabled": {
-                  "label": "Has Potency"
-                },
-                "value": {
-                  "label": "Potency Value"
-                },
-                "label": "Potency"
-              },
-              "description": {
-                "label": "Description"
-              }
-            },
-            "tier3": {
-              "label": "Tier 3 Result",
-              "damage": {
-                "value": {
-                  "label": "Damage Formula"
-                },
-                "type": {
-                  "label": "Damage Type"
-                }
-              },
-              "ae": {
-                "label": "Applied Effects"
-              },
-              "potency": {
-                "enabled": {
-                  "label": "Has Potency"
-                },
-                "value": {
-                  "label": "Potency Value"
-                },
-                "label": "Potency"
-              },
-              "description": {
-                "label": "Description"
+              "characteristics": {
+                "label": "Characteristics"
               }
             }
           },
           "effect": {
-            "label": "Effect"
+            "label": "Effect",
+            "before": {
+              "label": "Effect (Before Power Roll)"
+            },
+            "after": {
+              "label": "Effect (After Power Roll)"
+            }
           },
           "spend": {
             "label": "Spend",
@@ -483,6 +678,8 @@
         "ConfigureUse": {
           "Title": "Configure Ability Use",
           "SpendLabel": "Spend {value} {name}",
+          "SpendHint": "Current: {value}",
+          "SpendWarning": "Warning: You only have {value} {name}!",
           "SpentFlavor": "Spent {value} {name}"
         },
         "KeywordGroups": {
@@ -509,7 +706,7 @@
           "Ranged": "Ranged",
           "Resopathy": "Resopathy",
           "Rot": "Rot",
-          "Routine": "Routine",
+          "Performance": "Performance",
           "Strike": "Strike",
           "Telekinesis": "Telekinesis",
           "Telepathy": "Telepathy",
@@ -517,11 +714,13 @@
           "Weapon": "Weapon"
         },
         "Type": {
-          "Action": "Action",
+          "Main": "Main Action",
           "Maneuver": "Maneuver",
           "FreeManeuver": "Free Maneuver",
           "Triggered": "Triggered Action",
-          "FreeTriggered": "Free Triggered Action"
+          "FreeTriggered": "Free Triggered Action",
+          "None": "No Action",
+          "Villain": "Villain Action"
         },
         "Category": {
           "Heroic": "Heroic Ability",
@@ -571,17 +770,23 @@
           "Ally": "Ally",
           "AllyEmbed": "{value} allies",
           "AllAllies": "All allies",
-          "Self": "Self"
+          "Self": "Self",
+          "SelfOrAlly": "Self or one ally",
+          "SelfOrCreature": "Self or one creature",
+          "SelfAlly": "Self and allies",
+          "AllSelfAllies": "Self and each ally",
+          "SelfAllyEmbed": "Self and {value} allies",
+          "Special": "Special"
         },
         "DamageFlavor": "{type} Damage",
         "ForcedMovement": {
           "Push": "Push",
-          "PushX": "Push {x}",
+          "VerticalPush": "Vertical Push",
           "Pull": "Pull",
-          "PullX": "Pull {x}",
+          "VerticalPull": "Vertical Pull",
           "Slide": "Slide",
-          "SlideX": "Slide {x}",
-          "Vertical": "Vertical"
+          "VerticalSlide": "Vertical Slide",
+          "Display": "{movement} {distance}"
         },
         "EmbedFail": "Failed to find item for this ability roll",
         "Potency": {
@@ -589,26 +794,43 @@
           "Weak": "Weak",
           "Average": "Average",
           "Strong": "Strong",
-          "Embed": "{characteristic}<{value}",
+          "Embed": "{characteristic} < {value}",
           "Success": "Success",
           "Failure": "Failure"
         },
-        "Restricted": "A condition or ability effect is restricting the usage of this ability."
+        "Restricted": "A condition or ability effect is restricting the usage of this ability.",
+        "AddTierEffect": "Add Tier Effect",
+        "RemoveTierEffect": "Remove Tier Effect",
+        "Order": "Order",
+        "SwapUsage": {
+          "ToMelee": "Swap to Melee Usage",
+          "ToRanged": "Swap to Ranged Usage"
+        }
       },
-      "Ancestry": {
+      "ancestry": {
         "FIELDS": {}
       },
-      "Career": {
+      "ancestryTrait": {
         "FIELDS": {
-          "renown": {
-            "label": "Renown"
-          },
-          "projectPoints": {
-            "label": "Project Points"
+          "points": {
+            "label": "Point Cost"
           }
         }
       },
-      "Class": {
+      "career": {
+        "FIELDS": {
+          "projectPoints": {
+            "label": "Project Points"
+          },
+          "renown": {
+            "label": "Renown"
+          },
+          "wealth": {
+            "label": "Wealth"
+          }
+        }
+      },
+      "class": {
         "FIELDS": {
           "level": {
             "label": "Level"
@@ -616,8 +838,15 @@
           "primary": {
             "label": "Heroic Resource"
           },
+          "epic": {
+            "label": "Epic Resource"
+          },
           "turnGain": {
             "label": "Gain Per Turn"
+          },
+          "minimum": {
+            "label": "Resource Minimum",
+            "hint": "Can take a formula like '-1 - @R'."
           },
           "characteristics": {
             "core": {
@@ -637,12 +866,17 @@
           }
         }
       },
-      "Complication": {
+      "complication": {
         "FIELDS": {}
       },
-      "Culture": {
+      "culture": {
         "FIELDS": {},
-        "Environments": {
+        "AnyLanguageAdvancement": {
+          "name": "Any Language",
+          "description": "You know the language of your chosen culture."
+        },
+        "Environment": {
+          "label": "Environment",
           "Nomadic": "Nomadic",
           "Rural": "Rural",
           "Secluded": "Secluded",
@@ -650,20 +884,22 @@
           "Wilderness": "Wilderness"
         },
         "Organization": {
+          "label": "Organization",
           "Anarchic": "Anarchic",
           "Bureaucratic": "Bureaucratic",
           "Communal": "Communal"
         },
         "Upbringing": {
+          "label": "Upbringing",
           "Academic": "Academic",
           "Creative": "Creative",
-          "Illegal": "Illegal",
+          "Lawless": "Lawless",
           "Labor": "Labor",
           "Martial": "Martial",
           "Noble": "Noble"
         }
       },
-      "Equipment": {
+      "treasure": {
         "FIELDS": {
           "kind": {
             "label": "Kind"
@@ -677,11 +913,14 @@
           "keywords": {
             "label": "Keywords"
           },
-          "prerequisites": {
-            "label": "Item Prerequisites"
+          "quantity": {
+            "label": "Quantity"
           },
           "project": {
             "label": "Project",
+            "prerequisites": {
+              "label": "Item Prerequisites"
+            },
             "source": {
               "label": "Project Source"
             },
@@ -692,7 +931,12 @@
               "label": "Project Goal"
             },
             "yield": {
-              "label": "Project Yield"
+              "amount": {
+                "label": "Yield Amount"
+              },
+              "display": {
+                "label": "Yield Display"
+              }
             }
           }
         },
@@ -741,39 +985,10 @@
           "Ring": "Ring"
         }
       },
-      "Feature": {
-        "FIELDS": {
-          "type": {
-            "value": {
-              "label": "Feature Type"
-            },
-            "subtype": {
-              "label": "Feature Subtype"
-            }
-          },
-          "prerequisites": {
-            "label": "Prerequisites",
-            "value": {
-              "label": "Description"
-            }
-          }
-        },
-        "Types": {
-          "Perk": {
-            "Label": "Perk",
-            "Crafting": "Crafting",
-            "Exploration": "Exploration",
-            "Interpersonal": "Interpersonal",
-            "Intrigue": "Intrigue",
-            "Lore": "Lore",
-            "Supernatural": "Supernatural"
-          },
-          "Title": {
-            "Label":"Title"
-          }
-        }
+      "feature": {
+        "FIELDS": {}
       },
-      "Kit": {
+      "kit": {
         "FIELDS": {
           "type": {
             "label": "Type"
@@ -843,18 +1058,128 @@
         "Types": {
           "Martial": "Martial",
           "Caster": "Caster"
+        },
+        "SignatureAbilityAdvancement": {
+          "name": "Signature Ability",
+          "description": "Each kit grants a signature ability."
+        },
+        "PreferredKit": {
+          "Label": "Preferred Kit",
+          "MakePreferred": "Make Preferred Kit"
+        },
+        "StaminaEmbed": "{number} per echelon"
+      },
+      "subclass": {
+        "FIELDS": {
+          "classLink": {
+            "label": "Class Link",
+            "hint": "The Draw Steel ID of the parent class, which can be found in the class's Source Information."
+          }
+        },
+        "ERRORS": {
+          "NeedClass": "You can only add a subclass to characters with a class",
+          "WrongDSID": "The expected DSID {expected} did not match the current class's DSID of {actual}."
         }
+      },
+      "title": {
+        "FIELDS": {
+          "echelon": {
+            "label": "Echelon"
+          },
+          "story": {
+            "label": "Story Text"
+          },
+          "prerequisites": {
+            "label": "Prerequisites",
+            "value": {
+              "label": "Description"
+            }
+          }
+        }
+      },
+      "perk": {
+        "FIELDS": {
+          "perkType": {
+            "label": "Perk Type"
+          }
+        },
+        "Types": {
+          "Supernatural": "Supernatural"
+        }
+      },
+      "project": {
+        "FIELDS": {
+          "type": {
+            "label": "Type"
+          },
+          "prerequisites": {
+            "label": "Item Prerequisites"
+          },
+          "projectSource": {
+            "label": "Project Source"
+          },
+          "rollCharacteristic": {
+            "label": "Project Roll Characteristics"
+          },
+          "goal": {
+            "label": "Project Goal"
+          },
+          "points": {
+            "label": "Project Points"
+          },
+          "yield": {
+            "label": "Yield",
+            "item": {
+              "label": "Yield Item UUID"
+            },
+            "amount": {
+              "label": "Yield Amount"
+            },
+            "display": {
+              "label": "Yield Display"
+            }
+          }
+        },
+        "Types": {
+          "Crafting": "Crafting",
+          "Research": "Research",
+          "Other": "Other"
+        },
+        "CompletedNotification": "{actor} has achieved enough project points to complete the {project} project.",
+        "Craft": {
+          "ItemName": "Craft {name}",
+          "CompletedNotification": "{actor} successfully crafted {amount} {item}(s).",
+          "FromTreasure": {
+            "Label": "Start Crafting Project",
+            "Notification": "Started crafting project for {item}."
+          }
+        },
+        "SpendCareerPoints": {
+          "Title": "Spend Career Points",
+          "Label": "How many points do you want to spend?",
+          "Success": "{actor} has spent {points} project points from their career on {project}."
+        },
+        "Events": {
+          "RollForEvent": "Roll for Event",
+          "RollTriggered": "The event roll triggers an event!",
+          "MilestoneTriggered": "This project has passed the milestone for {events} event(s)!"
+        },
+        "RollBreakThrough": "Roll Breakthrough"
       }
     },
-    "Effect": {
+    "ActiveEffect": {
       "Name": "Effect",
+      "Filters": "Filters",
+      "StatusConditions": "Status Conditions",
       "Source": "Source",
       "Toggle": "Toggle Effect",
       "Temporary": "Temporary Effects",
       "Passive": "Passive Effects",
       "Inactive": "Inactive Effects",
       "Applied": "Applied Effects",
+      "Expired": "Expired",
       "Ends": {
+        "Label": "Ending Effects",
         "Turn": {
           "Label": "End of Turn",
           "Abbr": "EoT"
@@ -864,8 +1189,12 @@
           "Abbr": "Save Ends"
         },
         "Encounter": {
-          "Label": "End of Encounter or Dying",
+          "Label": "End of Encounter",
           "Abbr": "EoE"
+        },
+        "Respite": {
+          "Label": "Next Respite",
+          "Abbr": "Respite"
         }
       },
       "Conditions": {
@@ -920,9 +1249,20 @@
             }
           }
         }
+      },
+      "abilityModifier": {
+        "FIELDS": {
+          "filters": {
+            "label": "Filters",
+            "keywords": {
+              "label": "Keywords",
+              "hint": "All keywords that an ability must have to receive these modifications."
+            }
+          }
+        }
       }
     },
-    "DamageTypes": {
+    "DAMAGE_TYPE": {
       "Acid": "Acid",
       "Cold": "Cold",
       "Corruption": "Corruption",
@@ -933,14 +1273,119 @@
       "Psychic": "Psychic",
       "Sonic": "Sonic"
     },
-    "Roll": {
+    "HEALING_TYPE": {
+      "Value": "Stamina",
+      "Temporary": "Temporary Stamina"
+    },
+    "PSEUDO": {
+      "FIELDS": {
+        "name": {
+          "label": "Name"
+        },
+        "img": {
+          "label": "Image"
+        },
+        "type": {
+          "label": "Type"
+        }
+      },
+      "POWER_ROLL_EFFECT": {
+        "FIELDS": {
+          "damage": {
+            "label": "Damage"
+          },
+          "types": {
+            "label": "Damage Types"
+          },
+          "display": {
+            "label": "Display",
+            "hint": "'{{potency}}' will be replaced with the derived potency info (i.e. M<2).",
+            "hintForced": "'{{potency}}' will be replaced with the derived potency info (i.e. M<2). '{{forced}}' will be replaced with the derived forced movement info (i.e. Push or Pull 3)."
+          },
+          "effects": {
+            "element": {
+              "condition": {
+                "label": "Potency Condition"
+              },
+              "end": {
+                "label": "Override End"
+              },
+              "properties": {
+                "label": "Properties"
+              }
+            }
+          },
+          "movement": {
+            "label": "Forced Movement Type"
+          },
+          "distance": {
+            "label": "Distance"
+          },
+          "potency": {
+            "label": "Potency",
+            "value": {
+              "label": "Potency Value"
+            },
+            "characteristic": {
+              "label": "Potency Characteristic",
+              "hint": "Tiers 2 and 3 will default to the chosen characteristic of the prior tier."
+            }
+          },
+          "properties": {
+            "label": "Properties"
+          }
+        },
+        "APPLIED": {
+          "CONDITIONS": {
+            "always": "Always",
+            "failure": "Failure",
+            "success": "Success"
+          },
+          "Properties": {
+            "stacking": "Stacking"
+          },
+          "AddEffect": "Add Effect",
+          "CreateCustomEffect": "Create Custom Effect",
+          "CustomEffects": "Custom Effects"
+        },
+        "DAMAGE": {
+          "formatted": "{value} {damageTypes} damage",
+          "formattedTypeless": "{value} damage",
+          "formattedPotency": "{potency} {damage}",
+          "Properties": {
+            "IgnoresImmunity": "Ignores Immunities"
+          }
+        },
+        "FORCED": {
+          "Properties": {
+            "IgnoresStability": "Ignores Stability",
+            "Vertical": "Vertical"
+          }
+        }
+      },
+      "SHEET": {
+        "baseConfiguration": "Base Configuration",
+        "TABS": {
+          "details": "Details",
+          "identity": "Identity",
+          "tier1": "Tier 1",
+          "tier2": "Tier 2",
+          "tier3": "Tier 3"
+        }
+      },
+      "Notifications": {
+        "DeletedInfo": "Deleted {pseudoName} {id} with type {type} from {name}"
+      }
+    },
+    "ROLL": {
       "Prompt": "Roll {prompt}",
+      "Button": "Roll",
       "Power": {
         "Prompt": {
           "Title": "{typeLabel} Power Roll",
           "Total": "Total: {number}",
           "GlobalModifiers": "Global Modifiers",
-          "Button": "Roll"
+          "DamageSelectionLabel": "Damage Type"
         },
         "Tiers": {
           "One": "Tier 1",
@@ -965,16 +1410,34 @@
           "Edges": "Edges",
           "Bane": "Bane",
           "Banes": "Banes",
+          "Bonuses": "Bonuses/Penalties",
+          "Bonus": "Bonus",
+          "Penalty": "Penalty",
           "Label": "{number} {mod}"
         },
-        "BaseRoll": "Base Power Roll"
+        "BaseRoll": "Base Power Roll",
+        "RollPlusBonus": "Power Roll + {bonus}"
       },
       "Project": {
         "Label": "Project Roll",
         "Breakthrough": "Breakthrough!"
       },
       "Save": {
-        "Label": "Saving Throw"
+        "Label": "Saving Throw",
+        "Manager": {
+          "Title": "Saving Throw Manager: {name}"
+        },
+        "Prompt": {
+          "Title": "Roll Saving Throw",
+          "SituationalBonus": {
+            "Label": "Situational Bonus",
+            "PlaceHolder": "e.g. 3 or @I",
+            "Hint": "Formula: {formula}"
+          },
+          "SuccessThreshold": {
+            "Label": "Success Threshold"
+          }
+        }
       }
     },
     "Setting": {
@@ -984,7 +1447,17 @@
         "Hint": "Hero tokens are a group resource that is tracked by the players and kept in a pool that is accessible to all their characters.",
         "NoHeroTokens": "No Hero Tokens available",
         "WarnDirectorBadSpend": "{name} attempted to spend a hero token while none were available.",
+        "SpendToken": "Spend Token",
+        "GiveToken": "Give Token",
+        "GrantedTokens": "The heroes gain {count} hero token(s).",
+        "ResetToken": "Reset Hero Tokens",
+        "StartSession": "The Director reset the number of hero tokens to {count} for the start of the session.",
+        "Generic": {
+          "label": "Spend Token",
+          "messageContent": "Spent a hero token."
+        },
         "GainSurges": {
+          "tooltip": "Spend a hero token to gain two surges.",
           "label": "Gain Surges",
           "messageContent": "Spends a hero token to gain two surges.",
           "dialogContent": "Spend one of {value} hero tokens to gain two surges."
@@ -998,20 +1471,47 @@
           "messageContent": "Spends a hero token to succeed on a test and lose any consequences suffered."
         },
         "RegainStamina": {
+          "tooltip": "Regain Stamina with Hero Tokens",
           "label": "Regain Stamina",
-          "messageContent": "Spends two hero tokens to regain stamina equal to their recovery value."
+          "messageContent": "Spends two hero tokens to regain stamina equal to their recovery value.",
+          "dialogContent": "Spend two of {value} hero tokens to regain stamina equal to recovery value."
         }
       },
       "Malice": {
         "Label": "Malice",
-        "Hint": "Malice is a resource gained by the Director. You use malice to let enemies in the game activate their most powerful abilities and throw surprises at the heroes during combat."
+        "Hint": "Malice is a resource gained by the Director. You use malice to let enemies in the game activate their most powerful abilities and throw surprises at the heroes during combat.",
+        "AdjustMalice": {
+          "label": "Adjust Malice",
+          "hint": "Positive numbers will increase the value and negative numbers will decrease the value."
+        },
+        "ResetMalice": "Reset Malice",
+        "PlayerError": "Malice can only be updated by a GM."
+      },
+      "ShowPlayerMalice": {
+        "Label": "Show Malice Value To Players",
+        "Hint": "Display the current Malice value to players."
       },
       "MigrationVersion": {
         "Label": "Migration Version",
-        "Hint": "Last Performed Migration"
+        "Hint": "Last Performed Migration",
+        "WorldWarning": "Applying migrations for version {version}",
+        "WorldSuccess": "Successfully applied migrations for version {version}"
+      },
+      "ProjectEvents": {
+        "Label": "Project Event Trigger",
+        "Hint": "How should project event timing be determined?",
+        "Roll": "Roll for Event",
+        "Milestone": "Event Milestones"
       }
     },
-    "Skill": {
+    "SOCKET": {
+      "WARNING": {
+        "noActiveGM": "No active GM was found to be able to handle the request.",
+        "invalidSpendType": "The spend type [{spendType}] requested by [{name}] is not valid for hero tokens.",
+        "Timeout": "{label} timed out after {seconds}s"
+      }
+    },
+    "SKILL": {
       "Group": {
         "Crafting": "Crafting",
         "Exploration": "Exploration",
@@ -1023,6 +1523,8 @@
         "Alchemy": "Alchemy",
         "Architecture": "Architecture",
         "Blacksmithing": "Blacksmithing",
+        "Carpentry": "Carpentry",
+        "Cooking": "Cooking",
         "Fletching": "Fletching",
         "Forgery": "Forgery",
         "Jewelry": "Jewelry",
@@ -1073,13 +1575,14 @@
         "Religion": "Religion",
         "Rumors": "Rumors",
         "Society": "Society",
+        "Strategy": "Strategy",
         "Timescape": "Timescape"
       }
     },
-    "Languages": {
+    "LANGUAGE": {
       "Anjali": "Anjali",
       "Axiomatic": "Axiomatic",
-      "Caeliah": "Caeliah",
+      "Caelian": "Caelian",
       "Filliaric": "Filliaric",
       "Higaran": "Higaran",
       "HighKuric": "High Kuric",
@@ -1111,7 +1614,7 @@
       "Uvalic": "Uvalic",
       "Vaniric": "Vaniric",
       "Variac": "Variac",
-      "Vasloria": "Vasloria",
+      "Vasloria": "Vaslorian",
       "Vastariax": "Vastariax",
       "Vhoric": "Vhoric",
       "Voll": "Voll",
@@ -1119,31 +1622,112 @@
       "Zahariax": "Za'hariax",
       "Zaliac": "Zaliac"
     },
-    "Advancement": {
-      "Title": "Advancement"
-    },
-    "Echelon": {
+    "ECHELON": {
       "1": "1st Echelon",
       "2": "2nd Echelon",
       "3": "3rd Echelon",
       "4": "4th Echelon"
+    },
+    "ChatMessage": {
+      "base": {
+        "Buttons": {
+          "ApplyHeal": {
+            "Label": "Regain {amount} {type}",
+            "Tooltip": "Shift+Click: Halve Heal",
+            "TempCapped": "{name} already has more temporary Stamina"
+          },
+          "ApplyDamage": {
+            "Label": "Apply {amount}{type} Damage",
+            "Tooltip": "Shift+Click: Halve Damage"
+          }
+        }
+      },
+      "abilityUse": {
+        "NoTokenSelected": "You must have at least one token selected.",
+        "NoPRE": "The Power Roll Effect could not be found."
+      },
+      "savingThrow": {
+        "Buttons": {
+          "HeroToken": {
+            "Label": "Hero Token",
+            "Tooltip": "Succeed by spending a Hero Token",
+            "NoEffect": "This effect no longer exists.",
+            "NoOwner": "You no longer have update permissions for this effect."
+          }
+        }
+      }
+    },
+    "Macro": {
+      "Warnings": {
+        "Create": {
+          "NotOwnedItem": "You can only create macro buttons for owned Items."
+        },
+        "Roll": {
+          "NoItem": "Could not find item. You may need to delete and recreate this macro.",
+          "NotOwnedItem": "{item} is not an owned item. Only owned items may be rolled.",
+          "NoRoll": "{item} does not have a roll function."
+        }
+      }
+    },
+    "Wall": {
+      "Config": {
+        "Legend": "Draw Steel Configuration",
+        "BlocksLineOfEffect": {
+          "label": "Blocks Line of Effect",
+          "hint": "Should this wall block line of effect between tokens?"
+        }
+      }
     }
   },
   "TYPES": {
+    "ActiveEffect": {
+      "abilityModifier": "Ability Modifier"
+    },
     "Actor": {
-      "character": "Character",
+      "hero": "Hero",
       "npc": "NPC"
+    },
+    "Advancement": {
+      "itemGrant": "Item Grant",
+      "skill": "Skill",
+      "language": "Language"
+    },
+    "ChatMessage": {
+      "abilityUse": "Ability Use"
+    },
+    "CombatantGroup": {
+      "squad": "Squad"
     },
     "Item": {
       "ability": "Ability",
       "ancestry": "Ancestry",
+      "ancestryTrait": "Ancestry Trait",
       "career": "Career",
       "class": "Class",
       "complication": "Complication",
       "culture": "Culture",
       "feature": "Feature",
-      "equipment": "Equipment",
-      "kit": "Kit"
+      "treasure": "Treasure",
+      "kit": "Kit",
+      "perk": "Perk",
+      "project": "Project",
+      "subclass": "Subclass",
+      "title": "Title"
+    },
+    "PowerRollEffect": {
+      "applied": "Applied Effect",
+      "damage": "Damage",
+      "forced": "Forced Movement",
+      "other": "Other"
+    }
+  },
+  "TOKEN.MOVEMENT": {
+    "SelectType": "Select Movement Type",
+    "ToggleShift": "Toggle Shifting",
+    "ACTIONS": {
+      "teleport": {
+        "label": "Teleport"
+      }
     }
   },
   "USER": {

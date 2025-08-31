@@ -1,0 +1,66 @@
+{
+  "folder": "YKzQ5cCX8knW8fAc",
+  "name": "Defend",
+  "type": "ability",
+  "img": "icons/skills/melee/shield-block-fire-orange.webp",
+  "system": {
+    "source": {
+      "book": "Heroes",
+      "page": "274",
+      "license": "Draw Steel Creator License",
+      "revision": 2
+    },
+    "_dsid": "defend",
+    "keywords": [],
+    "type": "action",
+    "category": "",
+    "resource": null,
+    "trigger": "",
+    "distance": {
+      "type": "self",
+      "primary": null,
+      "secondary": null,
+      "tertiary": null
+    },
+    "damageDisplay": "melee",
+    "target": {
+      "type": "self",
+      "value": null
+    },
+    "effect": {
+      "before": "<p>When a creature takes the Defend main action, ability rolls made against them have a double bane until the start of their next turn. Additionally, you have a double edge on tests when called for to resist environmental effects or a creature’s traits or abilities. A creature gains no benefit from this action while another creature is taunted by them.</p>",
+      "after": ""
+    },
+    "spend": {
+      "value": null,
+      "text": ""
+    },
+    "story": "",
+    "power": {
+      "roll": {
+        "formula": "@chr",
+        "characteristics": []
+      },
+      "effects": {}
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.346",
+    "systemId": "draw-steel",
+    "systemVersion": "0.8.0",
+    "createdTime": 1749702844092,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "fjtY7RKBGWx2u5tK",
+  "sort": 400000,
+  "_key": "!items!fjtY7RKBGWx2u5tK"
+}

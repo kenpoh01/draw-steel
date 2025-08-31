@@ -1,8 +1,26 @@
-import {TargetedConditionPrompt} from "../apps/targeted-condition-prompt.mjs";
-import {DrawSteelActor} from "./actor.mjs";
+import TargetedConditionPrompt from "../applications/apps/targeted-condition-prompt.mjs";
 
-export class DrawSteelActiveEffect extends ActiveEffect {
-  /** @override */
+/** @import { StatusEffectConfig } from "@client/config.mjs" */
+/** @import DrawSteelActor from "./actor.mjs"; */
+
+/**
+ * A document subclass adding system-specific behavior and registered in CONFIG.ActiveEffect.documentClass.
+ */
+export default class DrawSteelActiveEffect extends foundry.documents.ActiveEffect {
+  /**
+   * Checks if a status condition applies to the actor.
+   * @param {StatusEffectConfig} status An entry in CONFIG.statusEffects.
+   * @param {DrawSteelActor} actor      The actor to check against for rendering.
+   * @returns {boolean} Will be shown on the token hud for the actor.
+   */
+  static validHud(status, actor) {
+    return (status.hud !== false) &&
+      ((foundry.utils.getType(status.hud) !== "Object") || (status.hud.actorTypes?.includes(actor.type)));
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static async _fromStatusEffect(statusId, effectData, options) {
     if (effectData.rule) effectData.description = `@Embed[${effectData.rule} inline]`;
     if (ds.CONFIG.conditions[statusId]?.targeted) await this.targetedConditionPrompt(statusId, effectData);
@@ -11,6 +29,8 @@ export class DrawSteelActiveEffect extends ActiveEffect {
     return effect;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Modify the effectData for the new effect with the changes to include the imposing actor's UUID in the appropriate flag.
    * @param {string} statusId
@@ -18,73 +38,92 @@ export class DrawSteelActiveEffect extends ActiveEffect {
    */
   static async targetedConditionPrompt(statusId, effectData) {
     try {
-      let imposingActorUuid = await TargetedConditionPrompt.prompt({context: {statusId}});
+      let imposingActorUuid = await TargetedConditionPrompt.create({ context: { statusId } });
 
       if (foundry.utils.parseUuid(imposingActorUuid)) {
         effectData.changes = this.changes ?? [];
         effectData.changes.push({
           key: `system.statuses.${statusId}.sources`,
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-          value: imposingActorUuid
+          value: imposingActorUuid,
         });
       }
     } catch (error) {
-      ui.notifications.warn("DRAW_STEEL.Effect.TargetedConditionPrompt.Warning", {localize: true});
+      ui.notifications.warn("DRAW_STEEL.ActiveEffect.TargetedConditionPrompt.Warning", { localize: true });
     }
   }
 
+  /* -------------------------------------------------- */
+
   /**
-   * Determine if a source actor is imposing the statusId on the affected actor.
-   * @param {DrawSteelActor} affected The actor affected by the status
-   * @param {DrawSteelActor} source The actor imposing the status
-   * @param {string} statusId
-   * @returns {boolean}
+   * Determine if the affected actor has the status and if the source is the one imposing it.
+   * @param {DrawSteelActor} affected The actor affected by the status.
+   * @param {DrawSteelActor} source The actor imposing the status.
+   * @param {string} statusId A status id from the CONFIG object.
+   * @returns {boolean | null}
    */
   static isStatusSource(affected, source, statusId) {
-    const isAffectedByStatusId = affected.statuses.has(statusId);
-    const isAffectedBySource = !!affected.system.statuses?.[statusId]?.sources.has(source.uuid);
-    return isAffectedByStatusId && isAffectedBySource;
+    if (!affected?.statuses.has(statusId)) return null;
+
+    return affected.system.statuses?.[statusId]?.sources.has(source.uuid) ?? null;
   }
+
+  /* -------------------------------------------------- */
 
   /**
-   * Automatically deactivate effects with expired durations
-   * @override
-   * @type {Boolean}
+   * Automatically deactivate effects with expired durations.
+   * @inheritdoc
    */
   get isSuppressed() {
-    if (Number.isNumeric(this.duration.remaining)) {
-      return this.duration.remaining <= 0;
-    }
-    return false;
+    if (Number.isNumeric(this.duration.remaining)) return this.duration.remaining <= 0;
+    // Checks `system.isSuppressed`
+    else return super.isSuppressed;
   }
 
-  /** @override */
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
     Hooks.callAll("ds.prepareActiveEffectData", this);
   }
 
-  /** @import {ActiveEffectDuration, EffectDurationData} from "../data/effect/_types" */
+  /* -------------------------------------------------- */
+
+  /** @import { ActiveEffectDuration, EffectDurationData } from "../data/effect/_types" */
 
   /**
    * Compute derived data related to active effect duration.
    * @returns {Omit<ActiveEffectDuration, keyof EffectDurationData>}
    * @protected
-   * @override
+   * @inheritdoc
    */
   _prepareDuration() {
     return this.system._prepareDuration ?? super._prepareDuration();
   }
 
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _getDurationLabel(rounds, turns) {
+    if ((rounds + turns) !== 0) return super._getDurationLabel(rounds, turns);
+    // Lines up with our effect suppression
+    return game.i18n.localize("DRAW_STEEL.ActiveEffect.Expired");
+  }
+
+  /* -------------------------------------------------- */
+
   /**
-   * Check if the effect's subtype has special handling, otherwise fallback to normal `duration` and `statuses` check
-   * @override
+   * Check if the effect's subtype has special handling, otherwise fallback to normal `duration` and `statuses` check.
+   * @inheritdoc
    */
   get isTemporary() {
     return this.system._isTemporary ?? super.isTemporary;
   }
 
-  /** @override */
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   _applyAdd(actor, change, current, delta, changes) {
     // If the change is setting a condition source and it doesn't exist on the actor, set the current value to an empty array.
     // If it does exist, convert the Set to an Array.
@@ -107,7 +146,9 @@ export class DrawSteelActiveEffect extends ActiveEffect {
     }
   }
 
-  /** @override */
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   _applyOverride(actor, change, current, delta, changes) {
     // If the property is a condition or a Set, convert the delta to a Set
     const match = change.key.match(/^system\.statuses\.(?<condition>[a-z]+)\.sources$/);
@@ -119,21 +160,37 @@ export class DrawSteelActiveEffect extends ActiveEffect {
     super._applyOverride(actor, change, current, delta, changes);
   }
 
+  /* -------------------------------------------------- */
+
   /**
-   * TODO: REMOVE IN V13
-   * Fix bug where _applyUpgrade can set value to undefined
-   * @override
+   * Return a data object which defines the data schema against which dice rolls can be evaluated.
+   * Potentially usable in the future. May also want to adjust details to care about.
+   * @returns {object}
    */
-  _applyUpgrade(actor, change, current, delta, changes) {
-    let update = current;
-    const ct = foundry.utils.getType(current);
-    switch (ct) {
-      case "boolean":
-      case "number":
-        if ((change.mode === CONST.ACTIVE_EFFECT_MODES.UPGRADE) && (delta > current)) update = delta;
-        else if ((change.mode === CONST.ACTIVE_EFFECT_MODES.DOWNGRADE) && (delta < current)) update = delta;
-        break;
+  getRollData() {
+    // Will naturally have actor data at the base & `item` for any relevant item data
+    const rollData = this.parent?.getRollData() ?? {};
+
+    // Shallow copy
+    rollData.effect = { ...this.system, duration: this.duration, flags: this.flags, name: this.name, statuses: {} };
+
+    // Statuses provided by *this* active effect
+    for (const status of this.statuses) {
+      rollData.effect.statuses[status] = 1;
     }
-    changes[change.key] = update;
+
+    if (this.system.modifyRollData instanceof Function) {
+      this.system.modifyRollData(rollData);
+    }
+
+    return rollData;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  apply(actor, change) {
+    if (this.system.apply instanceof Function) return this.system.apply(actor, change);
+    else return super.apply(actor, change);
   }
 }

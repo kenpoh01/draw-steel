@@ -1,0 +1,109 @@
+{
+  "folder": "YKzQ5cCX8knW8fAc",
+  "name": "Melee Free Strike",
+  "type": "ability",
+  "img": "icons/skills/melee/hand-grip-sword-strike-orange.webp",
+  "system": {
+    "source": {
+      "book": "Heroes",
+      "page": "275",
+      "license": "Draw Steel Creator License",
+      "revision": 1
+    },
+    "_dsid": "melee-free-strike",
+    "keywords": [
+      "charge",
+      "melee",
+      "strike",
+      "weapon"
+    ],
+    "type": "action",
+    "category": "freeStrike",
+    "resource": null,
+    "trigger": "",
+    "distance": {
+      "type": "melee",
+      "primary": 1,
+      "secondary": null,
+      "tertiary": null
+    },
+    "damageDisplay": "melee",
+    "target": {
+      "type": "creatureObject",
+      "value": 1
+    },
+    "effect": {
+      "before": "",
+      "after": ""
+    },
+    "spend": {
+      "value": null,
+      "text": ""
+    },
+    "power": {
+      "roll": {
+        "characteristics": [
+          "might",
+          "agility"
+        ],
+        "formula": "@chr"
+      },
+      "effects": {
+        "uMnGIJk7i9wqGwXp": {
+          "type": "damage",
+          "_id": "uMnGIJk7i9wqGwXp",
+          "damage": {
+            "tier2": {
+              "potency": {
+                "characteristic": "none",
+                "value": "@potency.average"
+              },
+              "value": "5 + @chr",
+              "types": [],
+              "properties": []
+            },
+            "tier3": {
+              "potency": {
+                "characteristic": "none",
+                "value": "@potency.strong"
+              },
+              "value": "7 + @chr",
+              "types": [],
+              "properties": []
+            },
+            "tier1": {
+              "value": "2 + @chr",
+              "types": [],
+              "properties": [],
+              "potency": {
+                "value": "@potency.weak",
+                "characteristic": "none"
+              }
+            }
+          },
+          "name": ""
+        }
+      }
+    },
+    "story": ""
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.346",
+    "systemId": "draw-steel",
+    "systemVersion": "0.8.0",
+    "createdTime": 1749702850267,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "wU69Y06G9lYFrvp6",
+  "sort": 1100000,
+  "_key": "!items!wU69Y06G9lYFrvp6"
+}

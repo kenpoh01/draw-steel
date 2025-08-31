@@ -7,14 +7,13 @@
     "pullJSONtoLDB": "node ./tools/pullJSONtoLDB.mjs",
     "pushLDBtoJSON": "node ./tools/pushLDBtoJSON.mjs",
     "unpack": "npm run pushLDBtoJSON",
-    "build": "npm run build:packs && npm run build:css && rollup -c",
+    "build": "npm run build:packs && npm run build:code",
     "build:packs": "npm run pullJSONtoLDB",
-    "build:css": "sass src/scss/draw-steel.scss css/draw-steel.css --style=expanded --no-source-map",
-    "build:css:watch": "sass src/scss/draw-steel.scss css/draw-steel.css --style=expanded --source-map --watch",
-    "lint": "eslint src/module/**.mjs",
-    "lint:fix": "eslint --fix src/module/**.mjs",
-    "postinstall": "npm run build:css && npm run createSymlinks",
-    "prepareRelease": "npm run build:packs && rollup -c"
+    "build:code": "rollup -c",
+    "lint": "eslint draw-steel.mjs src/module/**/* templates/**/*",
+    "lint:fix": "eslint --fix draw-steel.mjs src/module/**/* templates/**/*",
+    "postinstall": "npm run createSymlinks",
+    "prepareRelease": "npm run build:packs && npm run build:code"
   },
   "browserslist": [
     "last 3 versions"
@@ -22,12 +21,18 @@
   "author": "Joseph Meehan",
   "private": true,
   "devDependencies": {
-    "@foundryvtt/foundryvtt-cli": "^1.0.3",
+    "@eslint/js": "^9.27.0",
+    "@foundryvtt/foundryvtt-cli": "^2.0.0",
     "@html-eslint/eslint-plugin": "^0.26.0",
     "@html-eslint/parser": "^0.26.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "eslint": "^8.57.0",
+    "@stylistic/eslint-plugin": "^4.3.0",
+    "eslint": "^9.27.0",
+    "eslint-plugin-jsdoc": "^51.4.1",
     "rollup": "^4.9.1",
-    "sass": "^1.53.0"
+    "rollup-plugin-import-css": "^3.5.8",
+    "showdown": "^2.1.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1"
   }
 }

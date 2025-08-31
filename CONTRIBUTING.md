@@ -6,11 +6,11 @@ Please ensure there is an open issue about whatever contribution you are submitt
 
 ## Developer Tooling
 
-To start, clone this repository and either place it in or symlink it to your `Data/systems/draw-steel` user data directory. The CSS file referenced by `system.json` is derived from the SCSS files committed to the repository, so you must perform the following instructions to be able to load the repository in Foundry from the committed source.
+To start, clone this repository and either place it in or symlink it to your `Data/systems/draw-steel` user data directory.
 
 To provide type and i18n support, this repository uses a postinstall script that symlinks your local Foundry installation. For this to work, copy `example-foundry-config.yaml` and rename it to `foundry-config.yaml`, then replace the value of the `installPath` field.
 
-Once this is done you can run `npm install` to install all relevant dependencies as well as compile the CSS file. These include `eslint` and `sass`, which provide formatting and styling support.
+Once this is done you can run `npm install` to install all relevant dependencies. This includes `eslint`, which provides formatting support.
 
 For vscode, you will need to create a `.vscode/settings.json` file with the following:
 
@@ -36,11 +36,86 @@ If you are using VSCode, the i18n Ally (ID: `lokalise.i18n-ally`) extension will
 
 ## Compendiums
 
-The system is still under construction and not ready for compendium content yet! The current license allows for the full text of the backer packets and the backer packets only.
+The system supports compendium content for 1st party material licensed through the Draw Steel Creator's License. That means:
+
+- No 3rd party content
+- No playtest material
+- No unlicensed releases (e.g. the Delian Tomb)
+
+The files for compendium content are available in the `src/packs` directory.
+
+### Creating and updating content
+
+Modifications to compendium content should be performed from within foundry. This process requires having a dev install of the system, not the version downloaded from the package repository.
+
+1. While Foundry is closed, use `npm run build:packs` to make sure your local database files align with the material in the source files.
+2. Open foundry and open a world with zero modules.
+3. Unlock the compendium(s) you wish to adjust; there will be a dialog warning you about edit to system files, but in this case that is exactly what you want to be doing.
+4. Create or edit content as needed within the compendiums.
+5. When you are done, close down Foundry and run `npm run unpack`
+6. Your changes should appear as edits to the json files within `src/packs`. You may then commit those changes and submit them as a pull request.
+
+#### Style Guide
+
+To maintain consistency across the repository, keep the following rules in mind:
+- Not every feature is supported by automation; it's better to have the rules text and leave it up to individual groups to handle than use an ugly hack
+- If something seems like it should be supported by automation, check if there's already a ticket, and if there's not, feel free to file one requesting support.
+- All documents should have a thematically appropriate icon selected from the core foundry icons.
+  - Linked documents (e.g. a career and its incidents table) should have matching icons.
+  - Table results are the exception; only the table itself needs a unique icon.
+- HTML fields should be clean without extra styles added from pasting.
+
+Specific notes by type:
+
+**Abilities**
+- For abilities with no power roll, the "before" effect is preferred to the "after".
+
+**Ancestry**
+- The description on the ancestry itself should be the info text.
+- Even features that only grant abilities should be created as both, for the purpose of easy inclusion in trait purchasing.
+
+**Ancestry Trait**
+- If a trait grants an ability, both the trait and the ability must be included
+- Ancestry Traits should not include the point cost in their name or _dsid.
+- A point cost of null means it is a signature trait
+
+**Career**
+- Inciting incidents tables should be linked by `@UUID` reference.
+
+**Culture**
+- The core book's cultures are not expected to have descriptions, and the advancement titles should consist solely of the aspect (e.g. "Communal").
+
+<!-- Complication -->
+
+**Class and Subclass**
+- If a class or subclass feature only exists to grant an ability, e.g. the Tactician's Mark, just grant the ability directly and put the extra description in the Advancement.
+
+**Equipment**
+- Each tier of benefits for a leveled treasure should be implemented as a separate active effect with the idea that *only* that effect will be active.
+
+**Feature**
+- Not having a subtype is perfectly reasonable, many features are neither perks nor titles.
+
+**Kit**
+- Keep in mind that the book's abilities already include the kit bonus, so the ones in the compendium should *not* include the kit bonus to avoid double-counting.
+
+<!-- Perk -->
+
+<!-- Project -->
+
+**Title**
+- Titles with choices should have item grants for each of those choices, e.g. for Ratcatcher, an ability named "Come Out to Play", a feature for "Deadly and Big", and another feature for "Everybody Move!".
+- Use the `@Embed` enricher to avoid duplicating text unnecessarily.
 
 ### Translations
 
 The core system will only support english-language compendium content. [Babele](https://foundryvtt.com/packages/babele) integrations should be provided by separate translation modules.
+
+## Wiki
+
+The pages for the wiki are maintained in `src/docs`. These files also double as the markdown source for the System Documentation journal entry. Updates to this journal will be propagated back to the relevant files by the compendium unpack operation, and updates to these files will be included whenever the journals are rebuilt.
+
+Not all wiki pages are included in the System Documentation journal. To add a mirrored page to the journal, create a new page inside foundry and set the `flags.draw-steel.wikiPath` property to the name of the file, then unpack the compendiums. Otherwise, files inside `src/docs` will be wiki-exclusive.
 
 ## Issues
 
@@ -112,3 +187,28 @@ PRs have a few phases:
 #### PR Size
 
 Please understand that large and sprawling PRs are exceptionally difficult to review. As much as possible, break down the work for a large feature into smaller steps. Even if multiple PRs are required for a single Issue, this will make it considerably easier and therefore more likely that your contributions will be reviewed and merged in a timely manner.
+
+## Releases
+
+This repository includes a GitHub Actions configuration which automates the compilation and bundling required for a release when a Tag is pushed or created with the name `release-x.y.z`.
+
+### Prerequisites
+
+If either of these conditions are not met on the commit that tag points at, the workflow will error out and release assets will not be created.
+
+- The `system.json` file's `version` must match the `x.y.z` part of the tag name.
+- The `system.json` file's `download` url must match the expected outcome of the release CI artifact. This should simply be changing version numbers in the url to match the release version.
+
+```text
+https://github.com/foundryvtt/dnd5e/releases/download/release-1.6.3/dnd5e-1.6.3.zip
+                                                     └─ Tag Name ──┘     └─ V ─┘ (version)
+```
+
+### Process for Release
+
+`main` is to be kept as the "most recently released" version of the system. All work is done on development branches matching the milestone the work is a part of. Once the work on a milestone is complete, the following steps will create a system release:
+
+1. [ ] The `system.json` file's `version` and `download` fields are updated on the development branch (e.g. `1.2.3`).
+2. [ ] A tag is created at the tip of the development branch with the format `release-x.y.z`, triggering the CI workflow.
+3. [ ] The `develop` Branch is merged to `main` after the workflow is completed.
+4. [ ] The foundryvtt.com admin listing is updated with the `manifest` url pointing to the `system.json` attached to the workflow-created release.

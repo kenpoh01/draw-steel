@@ -1,4 +1,4 @@
-import type {StringFieldOptions} from "../../../../foundry/common/data/fields.mjs";
+import type { StringFieldOptions } from "@common/data/_types.mjs";
 
 export interface FormulaFieldOptions extends StringFieldOptions {
   /**
@@ -9,10 +9,13 @@ export interface FormulaFieldOptions extends StringFieldOptions {
 }
 
 declare module "./formula-field.mjs" {
-  export interface FormulaField {
-    override options: FormulaFieldOptions;
+  export default interface FormulaField extends FormulaFieldOptions {
+    options: FormulaFieldOptions;
 
-    /** Is this formula not allowed to have dice values? */
+    /**
+     * Is this formula not allowed to have dice values?
+     * @defaultValue `false`
+     */
     deterministic: boolean;
   }
 }

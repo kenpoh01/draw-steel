@@ -1,0 +1,98 @@
+{
+  "folder": "YKzQ5cCX8knW8fAc",
+  "name": "Escape Grab",
+  "type": "ability",
+  "img": "icons/magic/unholy/hand-claw-fog-green.webp",
+  "system": {
+    "source": {
+      "book": "Heroes",
+      "page": "273",
+      "license": "Draw Steel Creator License",
+      "revision": 2
+    },
+    "_dsid": "escape-grab",
+    "keywords": [],
+    "type": "maneuver",
+    "category": "",
+    "resource": null,
+    "trigger": "",
+    "distance": {
+      "type": "self",
+      "primary": 1,
+      "secondary": null,
+      "tertiary": null
+    },
+    "damageDisplay": "melee",
+    "target": {
+      "type": "enemy",
+      "value": 1
+    },
+    "effect": {
+      "before": "<p>A creature who is grabbed by another creature, an object, or an effect (see Grab below) can attempt to escape by using the following ability.</p>",
+      "after": "<p>You take a bane on this maneuver if your size is smaller than the size of the creature, object, or effect that has you grabbed.</p>"
+    },
+    "spend": {
+      "value": null,
+      "text": ""
+    },
+    "story": "",
+    "power": {
+      "roll": {
+        "characteristics": [
+          "might",
+          "agility"
+        ],
+        "formula": "@chr"
+      },
+      "effects": {
+        "9IqHcvFKmPUnGT2i": {
+          "type": "other",
+          "_id": "9IqHcvFKmPUnGT2i",
+          "other": {
+            "tier1": {
+              "display": "No Effect.",
+              "potency": {
+                "value": "@potency.weak",
+                "characteristic": "none"
+              }
+            },
+            "tier2": {
+              "display": "You can escape the grab, but if you do, a creature who has you grabbed can make a melee free strike against you before you are no longer grabbed.",
+              "potency": {
+                "value": "@potency.average",
+                "characteristic": ""
+              }
+            },
+            "tier3": {
+              "display": "You are no longer grabbed.",
+              "potency": {
+                "value": "@potency.strong",
+                "characteristic": ""
+              }
+            }
+          },
+          "name": ""
+        }
+      }
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.346",
+    "systemId": "draw-steel",
+    "systemVersion": "0.8.0",
+    "createdTime": 1749702844706,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "iD1SlB15GXJFALya",
+  "sort": 500000,
+  "_key": "!items!iD1SlB15GXJFALya"
+}

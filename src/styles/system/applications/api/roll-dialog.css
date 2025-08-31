@@ -1,0 +1,22 @@
+.draw-steel.roll-dialog {
+  footer {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+
+    .roll-mode-buttons {
+      button {
+        border-color: var(--button-border-color);
+      }
+
+      button.selected {
+        background: var(--button-hover-background-color);
+        color: var(--button-hover-text-color);
+      }
+    }
+
+    &>button {
+      flex: 1;
+    }
+  }
+}

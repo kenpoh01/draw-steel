@@ -1,0 +1,86 @@
+.draw-steel {
+  .effect-list-container {
+    margin: 10px 0px;
+
+    .effect-row,
+    .effect-header {
+      display: flex;
+      align-items: center;
+      text-align: center;
+    }
+
+    .effect-header {
+      background-color: var(--draw-steel-c-item-header-bg);
+      border-radius: 5px 5px 0px 0px;
+      position: sticky;
+      top: 0px;
+
+      .effect-name {
+        font-weight: bold;
+        font-size: var(--font-size-16);
+      }
+    }
+
+    .effect-name {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      text-align: left;
+      padding: 5px 0px 5px 5px;
+    }
+
+    .effect-source {
+      width: 200px;
+      padding: 0 1rem;
+    }
+
+    .effect-duration {
+      /* Makes "X Rounds, Y Turns" wrap at the comma */
+      width: 65px;
+    }
+
+    .effect-controls {
+      display: flex;
+      padding-left: 10px;
+      width: 100px;
+      justify-content: space-evenly;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      > * {
+        flex: 1;
+      }
+    }
+
+    .effect-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      .effect {
+        &:nth-child(even) {
+          background-color: var(--draw-steel-c-item-alternating-bg);
+        }
+
+        .effect-row {
+          .effect-name {
+            gap: 5px;
+
+            img {
+              width: 30px;
+              height: 30px;
+              border: none;
+            }
+
+            .name {
+              .label {
+                font-weight: bold;
+                font-size: var(--font-size-15);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

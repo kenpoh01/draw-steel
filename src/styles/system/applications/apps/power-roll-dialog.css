@@ -1,0 +1,26 @@
+.draw-steel.power-roll-dialog {
+  .group {
+    .header {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: var(--font-size-16);
+    }
+
+    .modifiers {
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+      margin-bottom: 10px;
+
+      label {
+        flex: 1;
+
+        select {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+
+}

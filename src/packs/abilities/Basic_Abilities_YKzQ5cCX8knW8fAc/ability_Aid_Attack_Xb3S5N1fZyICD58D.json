@@ -1,0 +1,66 @@
+{
+  "folder": "YKzQ5cCX8knW8fAc",
+  "name": "Aid Attack",
+  "type": "ability",
+  "img": "icons/skills/social/diplomacy-handshake-blue.webp",
+  "system": {
+    "source": {
+      "book": "Heroes",
+      "page": "273",
+      "license": "Draw Steel Creator License",
+      "revision": 2
+    },
+    "_dsid": "aid-attack",
+    "keywords": [],
+    "type": "maneuver",
+    "category": "",
+    "resource": null,
+    "trigger": "",
+    "distance": {
+      "type": "melee",
+      "primary": 1,
+      "secondary": null,
+      "tertiary": null
+    },
+    "damageDisplay": "melee",
+    "target": {
+      "type": "enemy",
+      "value": 1
+    },
+    "effect": {
+      "before": "<p>Choose an enemy adjacent to you. The next ability power roll an ally who makes against that creature before the start of your next turn has an edge.</p>",
+      "after": ""
+    },
+    "spend": {
+      "value": null,
+      "text": ""
+    },
+    "story": "",
+    "power": {
+      "roll": {
+        "formula": "@chr",
+        "characteristics": []
+      },
+      "effects": {}
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.346",
+    "systemId": "draw-steel",
+    "systemVersion": "0.8.0",
+    "createdTime": 1749702842093,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "Xb3S5N1fZyICD58D",
+  "sort": 100000,
+  "_key": "!items!Xb3S5N1fZyICD58D"
+}

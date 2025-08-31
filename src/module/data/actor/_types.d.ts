@@ -1,8 +1,34 @@
-import { DrawSteelActor } from "../../documents/actor.mjs";
-import { BarAttribute } from "../_types";
+import DrawSteelActor from "../../documents/actor.mjs";
 import SizeModel from "../models/size.mjs";
-import { DamageSchema } from "../item/kit.mjs";
 import SourceModel from "../models/source.mjs";
+
+interface BarAttribute {
+  value: number,
+  max: number
+}
+
+interface Biography {
+  value: string;
+  director: string;
+  languages: Set<string>;
+}
+
+interface CoreResource {
+  name: string;
+  target: foundry.abstract.DataModel;
+  path: string;
+  minimum: number;
+}
+
+interface FreeStrike {
+  value: number;
+  keywords: Set<string>;
+  type: string;
+  range: {
+    melee: number;
+    ranged: number;
+  };
+}
 
 declare module "./base.mjs" {
   export default interface BaseActorModel {
@@ -10,23 +36,26 @@ declare module "./base.mjs" {
     stamina: BarAttribute & {
       temporary: number;
       winded: number;
+      bonuses: {
+        echelon: number;
+      }
     },
-    characteristics: Record<string, {value: number}>;
+    characteristics: Record<string, { value: number }>;
     combat: {
       size: SizeModel;
       stability: number;
+      turns: number;
+      save: {
+        bonus: string;
+        threshold: number;
+      }
     }
-    biography: {
-      value: string;
-      gm: string;
-      languages: Set<string>;
-    }
+    biography: Biography
     movement: {
-      walk: number | null;
-      burrow: number | null;
-      climb: number | null;
-      swim: number | null;
-      fly: number | null;
+      value: number;
+      types: Set<string>;
+      hover: boolean;
+      disengage: number;
       teleport: number | null;
     }
     damage: {
@@ -39,22 +68,23 @@ declare module "./base.mjs" {
   }
 }
 
-declare module "./character.mjs" {
+declare module "./hero.mjs" {
   type HeroicResource = {
     value: number;
     label?: string;
-  }
+  };
 
-  export default interface CharacterModel {
+  export default interface HeroModel {
+    recoveries: BarAttribute & {
+      bonus: number;
+      recoveryValue: number;
+    };
     hero: {
       primary: HeroicResource;
-      // secondary: HeroicResource;
+      epic: HeroicResource;
       xp: number;
-      recoveries: BarAttribute & {
-        bonus: number;
-        recoveryValue: number;
-      };
       renown: number;
+      wealth: number;
       skills: Set<string>;
       preferredKit: string;
     }
@@ -63,6 +93,17 @@ declare module "./character.mjs" {
       weak: number;
       average: number;
       strong: number;
+    }
+    biography: Biography & {
+      age: string;
+      height: {
+        value: number;
+        units: string;
+      }
+      weight: {
+        value: number;
+        units: string;
+      }
     }
   }
 }
@@ -78,6 +119,7 @@ declare module "./npc.mjs" {
       impression: number;
     }
     monster: {
+      freeStrike: number;
       keywords: Set<string>;
       level: number;
       ev: number;

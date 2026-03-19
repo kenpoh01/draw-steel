@@ -1451,27 +1451,12 @@ const abilityCategories = {
 };
 
 /**
- * Non-type keys of Distance.
- * @typedef {"primary"|"secondary"|"tertiary"} Measurement
- */
-
-/**
- * @typedef AreaInfo
- * @property {keyof foundry.data.BaseShapeData.TYPES} type
- * @property {Measurement} [count]    Number of shapes to place.
- * @property {Measurement} [height]   Shape height.
- * @property {Measurement} [length]   Shape length.
- * @property {Measurement} [radius]   Shape radius.
- * @property {Measurement} [width]    Shape width.
- */
-
-/**
  * @typedef AbilityDistance
  * @property {string} label
  * @property {string} [primary]     Distance measurement label.
  * @property {string} [secondary]   Distance measurement label.
  * @property {string} [tertiary]    Distance measurement label.
- * @property {AreaInfo} [area]      Does this count as an area measurement?
+ * @property {boolean} [area]       Does this count as an area measurment?
  * @property {string} embedLabel    Format string for the display in the ability embed.
  * @property {Reference} [reference]
  */
@@ -1506,10 +1491,7 @@ const abilityDistances = {
   aura: {
     label: "DRAW_STEEL.Item.ability.Distance.Aura",
     primary: "DRAW_STEEL.Item.ability.Distance.Aura",
-    area: {
-      type: "emanation",
-      radius: "primary",
-    },
+    area: true,
     embedLabel: "DRAW_STEEL.Item.ability.DistanceEmbed.Aura",
     reference: {
       uuid: "Compendium.draw-steel.journals.JournalEntry.f8eNK5Pte4CSdex0.JournalEntryPage.3IzfAxqODmxTQGXm",
@@ -1518,10 +1500,7 @@ const abilityDistances = {
   burst: {
     label: "DRAW_STEEL.Item.ability.Distance.Burst",
     primary: "DRAW_STEEL.Item.ability.Distance.Burst",
-    area: {
-      type: "emanation",
-      radius: "primary",
-    },
+    area: true,
     embedLabel: "DRAW_STEEL.Item.ability.DistanceEmbed.Burst",
     reference: {
       uuid: "Compendium.draw-steel.journals.JournalEntry.f8eNK5Pte4CSdex0.JournalEntryPage.fRRL0LxYTLYDjI2l",
@@ -1531,11 +1510,7 @@ const abilityDistances = {
     label: "DRAW_STEEL.Item.ability.Distance.Cube",
     primary: "DRAW_STEEL.Item.ability.Distance.Length",
     secondary: "DRAW_STEEL.Item.ability.Distance.Ranged",
-    area: {
-      type: "rectangle",
-      width: "primary",
-      height: "primary",
-    },
+    area: true,
     embedLabel: "DRAW_STEEL.Item.ability.DistanceEmbed.Cube",
     reference: {
       uuid: "Compendium.draw-steel.journals.JournalEntry.f8eNK5Pte4CSdex0.JournalEntryPage.NM5mRQoFz11PuS3N",
@@ -1546,11 +1521,7 @@ const abilityDistances = {
     primary: "DRAW_STEEL.Item.ability.Distance.Length",
     secondary: "DRAW_STEEL.Item.ability.Distance.Width",
     tertiary: "DRAW_STEEL.Item.ability.Distance.Ranged",
-    area: {
-      type: "line",
-      length: "primary",
-      width: "secondary",
-    },
+    area: true,
     embedLabel: "DRAW_STEEL.Item.ability.DistanceEmbed.Line",
     reference: {
       uuid: "Compendium.draw-steel.journals.JournalEntry.f8eNK5Pte4CSdex0.JournalEntryPage.F81fUHvZswIgxONN",
@@ -1560,10 +1531,7 @@ const abilityDistances = {
     label: "DRAW_STEEL.Item.ability.Distance.Wall",
     primary: "DRAW_STEEL.Item.ability.Distance.Squares",
     secondary: "DRAW_STEEL.Item.ability.Distance.Ranged",
-    area: {
-      type: "rectangle",
-      count: "primary",
-    },
+    area: true,
     embedLabel: "DRAW_STEEL.Item.ability.DistanceEmbed.Wall",
     reference: {
       uuid: "Compendium.draw-steel.journals.JournalEntry.f8eNK5Pte4CSdex0.JournalEntryPage.yoPRPFENNuODlmpT",

@@ -76,7 +76,7 @@ export default class DrawSteelCombatantGroupConfig extends HandlebarsApplication
     const buttons = [
       {
         type: "submit",
-        label: _loc("DOCUMENT.Update", { type: _loc("DOCUMENT.CombatantGroup") }),
+        label: game.i18n.format("DOCUMENT.Update", { type: game.i18n.localize("DOCUMENT.CombatantGroup") }),
         icon: "fa-solid fa-save",
       },
     ];

@@ -135,7 +135,7 @@ export default class ItemGrantConfigurationDialog extends DSApplication {
 
   /** @inheritdoc */
   get title() {
-    return _loc("DRAW_STEEL.ADVANCEMENT.ConfigureAdvancement.Title", {
+    return game.i18n.format("DRAW_STEEL.ADVANCEMENT.ConfigureAdvancement.Title", {
       name: this.advancement.name,
     });
   }
@@ -168,7 +168,7 @@ export default class ItemGrantConfigurationDialog extends DSApplication {
       case "footer":
         context.buttons = [{
           type: "submit",
-          label: "COMMON.Confirm",
+          label: "Confirm",
           icon: "fa-solid fa-fw fa-check",
           disabled: (this.advancement.chooseN == null) || (this.totalChosen !== this.advancement.chooseN),
         }];
@@ -188,10 +188,10 @@ export default class ItemGrantConfigurationDialog extends DSApplication {
    */
   async _prepareBody(context, options) {
     context.chooseLabel = (this.advancement.chooseN == null) ?
-      _loc("DRAW_STEEL.ADVANCEMENT.ConfigureAdvancement.ChooseNull") :
+      game.i18n.localize("DRAW_STEEL.ADVANCEMENT.ConfigureAdvancement.ChooseNull") :
       this.advancement.pointBuy ?
-        _loc("DRAW_STEEL.ADVANCEMENT.ConfigureAdvancement.SpendPoints", { points: this.advancement.chooseN }) :
-        _loc("DRAW_STEEL.ADVANCEMENT.ConfigureAdvancement.ChooseN", { n: this.advancement.chooseN });
+        game.i18n.format("DRAW_STEEL.ADVANCEMENT.ConfigureAdvancement.SpendPoints", { points: this.advancement.chooseN }) :
+        game.i18n.format("DRAW_STEEL.ADVANCEMENT.ConfigureAdvancement.ChooseN", { n: this.advancement.chooseN });
 
     context.additional = this.advancement.additional.type;
 
@@ -203,7 +203,7 @@ export default class ItemGrantConfigurationDialog extends DSApplication {
         perkTypes: listFormatter.format(perkLabels),
         itemName: this.advancement.document.name,
       };
-      context.additionalText = _loc(`DRAW_STEEL.ADVANCEMENT.ITEM_GRANT.AdditionalText.${context.additional}`, formatData);
+      context.additionalText = game.i18n.format(`DRAW_STEEL.ADVANCEMENT.ITEM_GRANT.AdditionalText.${context.additional}`, formatData);
     }
 
     context.points = this.advancement.pointBuy;

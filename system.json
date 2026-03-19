@@ -180,10 +180,10 @@
       "thumbnail": "systems/draw-steel/assets/system-background.webp"
     }
   ],
-  "version": "1.0.0",
+  "version": "0.11.1",
   "compatibility": {
-    "minimum": "14.356",
-    "verified": "14"
+    "minimum": "13.351",
+    "verified": "13"
   },
   "esmodules": ["draw-steel.mjs"],
   "styles": [

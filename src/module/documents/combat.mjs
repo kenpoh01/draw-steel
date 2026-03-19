@@ -36,7 +36,7 @@ export default class DrawSteelCombat extends foundry.documents.Combat {
     const resultMessage = `DRAW_STEEL.Combat.Initiative.Actions.RollFirst.${initiativeWinner}`;
 
     roll.toMessage({
-      flavor: _loc(resultMessage),
+      flavor: game.i18n.localize(resultMessage),
     }, { rollMode: CONST.DICE_ROLL_MODES.PUBLIC });
   }
 

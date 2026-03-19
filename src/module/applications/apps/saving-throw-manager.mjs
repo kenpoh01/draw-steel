@@ -56,7 +56,7 @@ export default class SavingThrowManager extends RollManager {
 
   /** @inheritdoc */
   get title() {
-    return _loc("DRAW_STEEL.ROLL.Save.Manager.Title", { name: this.effect.name });
+    return game.i18n.format("DRAW_STEEL.ROLL.Save.Manager.Title", { name: this.effect.name });
   }
 
   /* -------------------------------------------------- */

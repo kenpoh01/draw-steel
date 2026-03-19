@@ -7,7 +7,7 @@ import enrichHTML from "../../utils/enrich-html.mjs";
 /**
  * A data model used by default effects with properties to control the expiration behavior.
  */
-export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataModel {
+export default class BaseEffectModel extends foundry.abstract.TypeDataModel {
   /**
    * Key information about this ActiveEffect subtype.
    */
@@ -29,17 +29,14 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
 
   /** @inheritdoc */
   static defineSchema() {
-    const schema = super.defineSchema();
-
     const fields = foundry.data.fields;
     const config = ds.CONFIG;
-
-    schema.end = new fields.SchemaField({
-      type: new fields.StringField({ choices: config.effectEnds, blank: true, required: true }),
-      roll: new FormulaField({ initial: "1d10 + @combat.save.bonus" }),
-    });
-
-    return schema;
+    return {
+      end: new fields.SchemaField({
+        type: new fields.StringField({ choices: config.effectEnds, blank: true, required: true }),
+        roll: new FormulaField({ initial: "1d10 + @combat.save.bonus" }),
+      }),
+    };
   }
 
   /* -------------------------------------------------- */

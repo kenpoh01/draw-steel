@@ -53,8 +53,8 @@ export default class SourceModel extends foundry.abstract.DataModel {
     const bookLabel = ds.CONFIG.sourceInfo.books[this.book]?.label;
 
     const page = Number.isNumeric(this.page)
-      ? _loc("DRAW_STEEL.SOURCE.Display.Page", { page: this.page }) : (this.page ?? "");
-    this.label = _loc("DRAW_STEEL.SOURCE.Display.Full", { book: bookLabel || this.book, page }).trim();
+      ? game.i18n.format("DRAW_STEEL.SOURCE.Display.Page", { page: this.page }) : (this.page ?? "");
+    this.label = game.i18n.format("DRAW_STEEL.SOURCE.Display.Full", { book: bookLabel || this.book, page }).trim();
   }
 
   /* -------------------------------------------------- */

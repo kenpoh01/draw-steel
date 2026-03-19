@@ -25,7 +25,7 @@ export class MaliceModel extends foundry.abstract.DataModel {
 
   /** Localized name for the setting. */
   get label() {
-    return _loc(this.constructor.label);
+    return game.i18n.localize(this.constructor.label);
   }
 
   /* -------------------------------------------------- */
@@ -37,7 +37,7 @@ export class MaliceModel extends foundry.abstract.DataModel {
 
   /** Localized helper text for Malice. */
   get hint() {
-    return _loc(this.constructor.hint);
+    return game.i18n.localize(this.constructor.hint);
   }
 
   /* -------------------------------------------------- */

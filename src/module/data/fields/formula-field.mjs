@@ -74,10 +74,4 @@ export default class FormulaField extends foundry.data.fields.StringField {
     if ((terms.length === 1) && (terms[0].fn === "min")) return value.replace(/\)$/, `, ${delta})`);
     return `min(${value}, ${delta})`;
   }
-
-  /** @override*/
-  _toInput(config) {
-    config.value ??= this.getInitialValue({}) ?? "";
-    return foundry.applications.elements.HTMLFormulaInputElement.create(config);
-  }
 }

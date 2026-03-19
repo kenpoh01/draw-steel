@@ -38,7 +38,7 @@ export default class DrawSteelItemSheet extends DSDocumentSheet {
     },
     window: {
       controls: [{
-        icon: "fa-solid fa-fw fa-file-arrow-down",
+        icon: "fa-solid fa-file-arrow-down",
         label: "DRAW_STEEL.SOURCE.CompendiumSource.UpdateFrom.Label",
         action: "updateFromCompendium",
         visible: DrawSteelItemSheet.#canUpdateFromCompendium,
@@ -222,8 +222,8 @@ export default class DrawSteelItemSheet extends DSDocumentSheet {
     for (const model of models) {
       if (!advs[model.requirements.level]) {
         const section = Number.isNumeric(model.requirements.level) ?
-          _loc("DRAW_STEEL.ADVANCEMENT.HEADERS.level", { level: model.requirements.level }) :
-          _loc("DRAW_STEEL.ADVANCEMENT.HEADERS.null");
+          game.i18n.format("DRAW_STEEL.ADVANCEMENT.HEADERS.level", { level: model.requirements.level }) :
+          game.i18n.localize("DRAW_STEEL.ADVANCEMENT.HEADERS.null");
         advs[model.requirements.level] = {
           section,
           level: model.requirements.level,
@@ -263,22 +263,22 @@ export default class DrawSteelItemSheet extends DSDocumentSheet {
     const categories = {
       temporary: {
         type: "temporary",
-        label: _loc("DRAW_STEEL.ActiveEffect.Temporary"),
+        label: game.i18n.localize("DRAW_STEEL.ActiveEffect.Temporary"),
         effects: [],
       },
       passive: {
         type: "passive",
-        label: _loc("DRAW_STEEL.ActiveEffect.Passive"),
+        label: game.i18n.localize("DRAW_STEEL.ActiveEffect.Passive"),
         effects: [],
       },
       inactive: {
         type: "inactive",
-        label: _loc("DRAW_STEEL.ActiveEffect.Inactive"),
+        label: game.i18n.localize("DRAW_STEEL.ActiveEffect.Inactive"),
         effects: [],
       },
       applied: {
         type: "applied",
-        label: _loc("DRAW_STEEL.ActiveEffect.Applied"),
+        label: game.i18n.localize("DRAW_STEEL.ActiveEffect.Applied"),
         effects: [],
       },
     };
@@ -356,25 +356,25 @@ export default class DrawSteelItemSheet extends DSDocumentSheet {
   _getDocumentListContextOptions() {
     return [
       {
-        label: "DRAW_STEEL.ActiveEffect.RollSave",
-        icon: "fa-solid fa-fw fa-dice-d10",
-        visible: (target) => {
+        name: "DRAW_STEEL.ActiveEffect.RollSave",
+        icon: "<i class=\"fa-solid fa-fw fa-dice-d10\"></i>",
+        condition: (target) => {
           const effect = this._getEmbeddedDocument(target);
           return effect.system.end?.type === "save";
         },
-        onClick: async (event, target) => {
+        callback: async (target) => {
           const effect = this._getEmbeddedDocument(target);
           await effect.system.rollSave();
         },
       },
       {
-        label: "DRAW_STEEL.ActiveEffect.Toggle",
-        icon: "fa-solid fa-fw fa-check",
-        visible: (target) => {
+        name: "DRAW_STEEL.ActiveEffect.Toggle",
+        icon: "<i class=\"fa-solid fa-fw fa-check\"></i>",
+        condition: (target) => {
           const effect = this._getEmbeddedDocument(target);
           return !effect.active;
         },
-        onClick: async (event, target) => {
+        callback: async (target) => {
           const effect = this._getEmbeddedDocument(target);
           const updateData = DrawSteelActiveEffect.getInitialDuration();
 
@@ -384,39 +384,39 @@ export default class DrawSteelItemSheet extends DSDocumentSheet {
         },
       },
       {
-        label: "DRAW_STEEL.ActiveEffect.Toggle",
-        icon: "fa-solid fa-fw fa-times",
-        visible: (target) => {
+        name: "DRAW_STEEL.ActiveEffect.Toggle",
+        icon: "<i class=\"fa-solid fa-fw fa-times\"></i>",
+        condition: (target) => {
           const effect = this._getEmbeddedDocument(target);
           return effect.active;
         },
-        onClick: async (event, target) => {
+        callback: async (target) => {
           const effect = this._getEmbeddedDocument(target);
           await effect.update({ disabled: true });
         },
       },
       {
-        label: "DRAW_STEEL.SHEET.View",
-        icon: "fa-solid fa-fw fa-eye",
-        visible: () => this.isPlayMode,
-        onClick: async (event, target) => {
+        name: "DRAW_STEEL.SHEET.View",
+        icon: "<i class=\"fa-solid fa-fw fa-eye\"></i>",
+        condition: () => this.isPlayMode,
+        callback: async (target) => {
           const document = this._getEmbeddedDocument(target);
           await document.sheet.render({ force: true });
         },
       },
       {
-        label: "DRAW_STEEL.SHEET.Edit",
-        icon: "fa-solid fa-fw fa-edit",
-        visible: () => this.isEditMode,
-        onClick: async (event, target) => {
+        name: "DRAW_STEEL.SHEET.Edit",
+        icon: "<i class=\"fa-solid fa-fw fa-edit\"></i>",
+        condition: () => this.isEditMode,
+        callback: async (target) => {
           const document = this._getEmbeddedDocument(target);
           await document.sheet.render({ force: true });
         },
       },
       {
-        label: "DRAW_STEEL.SHEET.Share",
-        icon: "fa-solid fa-fw fa-share-from-square",
-        onClick: async (event, target) => {
+        name: "DRAW_STEEL.SHEET.Share",
+        icon: "<i class=\"fa-solid fa-fw fa-share-from-square\"></i>",
+        callback: async (target) => {
           const document = this._getEmbeddedDocument(target);
           await DrawSteelChatMessage.create({
             content: `@Embed[${document.uuid} caption=false]`,
@@ -429,10 +429,10 @@ export default class DrawSteelItemSheet extends DSDocumentSheet {
         },
       },
       {
-        label: "DRAW_STEEL.SHEET.Delete",
-        icon: "fa-solid fa-fw fa-trash",
-        visible: () => this.item.isOwner,
-        onClick: async (event, target) => {
+        name: "DRAW_STEEL.SHEET.Delete",
+        icon: "<i class=\"fa-solid fa-fw fa-trash\"></i>",
+        condition: () => this.item.isOwner,
+        callback: async (target) => {
           const document = this._getEmbeddedDocument(target);
           document.deleteDialog();
         },
@@ -447,10 +447,10 @@ export default class DrawSteelItemSheet extends DSDocumentSheet {
   _createEffectContextOptions() {
     return [
       {
-        label: _loc("DOCUMENT.Create", { type: _loc("DOCUMENT.ActiveEffect") }),
-        icon: `${CONFIG.ActiveEffect.typeIcons.base} fa-fw`,
-        visible: () => this.isEditable,
-        onClick: (event, target) => {
+        name: game.i18n.format("DOCUMENT.Create", { type: game.i18n.localize("DOCUMENT.ActiveEffect") }),
+        icon: `<i class="${CONFIG.ActiveEffect.typeIcons.base}"></i>`,
+        condition: () => this.isEditable,
+        callback: (target) => {
           const effectClass = getDocumentClass("ActiveEffect");
 
           const effectData = {
@@ -469,10 +469,10 @@ export default class DrawSteelItemSheet extends DSDocumentSheet {
         },
       },
       {
-        label: _loc("DOCUMENT.Create", { type: _loc("TYPES.ActiveEffect.abilityModifier") }),
-        icon: `${CONFIG.ActiveEffect.typeIcons.abilityModifier} fa-fw`,
-        visible: () => this.isEditable,
-        onClick: (event, target) => {
+        name: game.i18n.format("DOCUMENT.Create", { type: game.i18n.localize("TYPES.ActiveEffect.abilityModifier") }),
+        icon: `<i class="${CONFIG.ActiveEffect.typeIcons.abilityModifier}"></i>`,
+        condition: () => this.isEditable,
+        callback: (target) => {
           const effectClass = getDocumentClass("ActiveEffect");
           const effectData = {
             name: effectClass.defaultName({ parent: this.item, type: "abilityModifier" }),
@@ -721,7 +721,7 @@ export default class DrawSteelItemSheet extends DSDocumentSheet {
 
     const result = await ds.applications.api.DSDialog.input({
       window: {
-        title: _loc("DOCUMENT.New", { type: _loc("DOCUMENT.Advancement") }),
+        title: game.i18n.format("DOCUMENT.New", { type: game.i18n.localize("DOCUMENT.Advancement") }),
         icon: BaseAdvancement.metadata.icon,
       },
       content,
@@ -854,8 +854,8 @@ export default class DrawSteelItemSheet extends DSDocumentSheet {
 
     if (!ds.CONFIG.Advancement[advancement.type].itemTypes.has(this.item.type)) {
       ui.notifications.error("DRAW_STEEL.ADVANCEMENT.SHEET.warnDrop", { format: {
-        itemType: _loc(CONFIG.Item.typeLabels[this.item.type]),
-        advancementType: _loc(ds.CONFIG.Advancement[advancement.type].label),
+        itemType: game.i18n.localize(CONFIG.Item.typeLabels[this.item.type]),
+        advancementType: game.i18n.localize(ds.CONFIG.Advancement[advancement.type].label),
       } });
       return null;
     }
